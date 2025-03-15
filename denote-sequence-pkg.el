@@ -1,0 +1,2 @@
+;; Generated package description from denote-sequence.el  -*- mode: lisp-data; no-byte-compile: t -*-
+(define-package "denote-sequence" "0.0.0.0.20250314.51010" "Sequence notes or Folgezettel with Denote" '((emacs "28.1") (denote "3.1.0")) :commit "bb0347b821899c977fee6221b6b1c802b957b03f" :authors '(("Protesilaos Stavrou" . "info@protesilaos.com")) :maintainer '("Protesilaos Stavrou" . "info@protesilaos.com") :url "https://github.com/protesilaos/denote-sequence")
