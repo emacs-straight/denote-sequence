@@ -1,4 +1,4 @@
-This is docWaexA6.info, produced by makeinfo version 6.8 from
+This is doc87b3cn.info, produced by makeinfo version 6.8 from
 denote-sequence.texi.
 
 Copyright (C) 2022-2025 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docWaexA6.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
+File: doc87b3cn.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
 
 denote-sequence: Sequence notes or Folgezettel with Denote
 **********************************************************
@@ -96,17 +96,15 @@ Indices
 
 
 
-File: docWaexA6.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
+File: doc87b3cn.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Write sequence notes or "folgezettel"
 ***************************************
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   The ‘denote-sequence’ package provides an optional extension to
-‘denote’ for naming files with a sequencing scheme.  The idea is to
-establish hiearchical relationships between files, such that the
-contents of one logically follow or complement those of another.
+The ‘denote-sequence’ package provides an optional extension to ‘denote’
+for naming files with a sequencing scheme.  The idea is to establish
+hiearchical relationships between files, such that the contents of one
+logically follow or complement those of another.
 
    Denote defines an optional file name component called the ‘SIGNATURE’
 (read about the file-naming scheme in the Denote manual).  This is a
@@ -148,15 +146,13 @@ manually.  The purpose of this extension is to streamline this work.
 * Show all or some sequences in a Dired buffer::
 
 
-File: docWaexA6.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.1 Select a sequencing scheme for ‘denote-sequence-scheme’
 ===========================================================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   The user option ‘denote-sequence-scheme’ allows users to select
-either the ‘numeric’ scheme, which is like ‘1=1=2’ or the ‘alphanumeric’
+The user option ‘denote-sequence-scheme’ allows users to select either
+the ‘numeric’ scheme, which is like ‘1=1=2’ or the ‘alphanumeric’
 scheme, which is ‘1a2’ for the same sequence (*note Convert from one
 sequencing scheme to another::):
 
@@ -184,14 +180,12 @@ Alphanumeric sequencing scheme
 * Convert from one sequencing scheme to another::
 
 
-File: docWaexA6.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
+File: doc87b3cn.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
 
 1.1.1 Convert from one sequencing scheme to another
 ---------------------------------------------------
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   The decision on the desired ‘denote-sequence-scheme’ wil affect new
+The decision on the desired ‘denote-sequence-scheme’ wil affect new
 notes long-term (*note Select a sequencing scheme for
 denote-sequence-scheme::).  It thus is important to think through your
 needs and proceed accordingly.
@@ -211,14 +205,12 @@ THE RESULTING SEQUENCES FOR DUPLICATES (*note Re-parent a file to extend
 a given sequence::).
 
 
-File: docWaexA6.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
 
 1.2 Create parent, child, or sibling sequence notes
 ===================================================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   [ In the interest of simplicity, here we provide examples using the
+[ In the interest of simplicity, here we provide examples using the
 ‘numeric’ value of ‘denote-sequence-scheme’, though the ‘alphanumeric’
 will work as well (*note Select a sequencing scheme for
 denote-sequence-scheme::).  ]
@@ -267,14 +259,12 @@ demand.
      ‘denote-sequence-new-sibling’.
 
 
-File: docWaexA6.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.3 Find a relative of the current sequence
 ===========================================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   While reading a file with a sequence, you may want to find what its
+While reading a file with a sequence, you may want to find what its
 relatives are about.  To this end, the command ‘denote-sequence-find’
 prompts for a type among ‘parent’, ‘sibling’, ‘child’, and then asks to
 select a file among those matching the given type.  It then visits the
@@ -285,14 +275,12 @@ file.
 Dired buffer (*note Show all or some sequences in a Dired buffer::).
 
 
-File: docWaexA6.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
 
 1.4 Link only to sequences
 ==========================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   The command ‘denote-sequence-link’ is a variant of the standard
+The command ‘denote-sequence-link’ is a variant of the standard
 ‘denote-link’ command which limits the list of files only to those which
 contain a sequence (read the Denote manual about link-related commands).
 Consider it a convenience to link to sequence notes more quickly.  It is
@@ -302,29 +290,25 @@ sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 “folgezettel”: Sequence notes.).
 
 
-File: docWaexA6.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
 
 1.5 Re-parent a file to extend a given sequence
 ===============================================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   The command ‘denote-sequence-reparent’ can be used from inside a file
-or for the file-at-point in Dired to make that file a child of a given
+The command ‘denote-sequence-reparent’ can be used from inside a file or
+for the file-at-point in Dired to make that file a child of a given
 sequence.  It does so by prompting for the target file using minibuffer
 completion.  Files available at this prompt are only those which contain
 a sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 “folgezettel”: Sequence notes.).
 
 
-File: docWaexA6.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
+File: doc87b3cn.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
 
 1.6 Show all or some sequences in a Dired buffer
 ================================================
 
-[ The ‘denote-sequence.el’ is part of 0.1.0-dev.  ]
-
-   [ In the interest of simplicity, here we provide examples using the
+[ In the interest of simplicity, here we provide examples using the
 ‘numeric’ value of ‘denote-sequence-scheme’, though the ‘alphanumeric’
 will work as well (*note Select a sequencing scheme for
 denote-sequence-scheme::).  ]
@@ -348,7 +332,7 @@ prefix.
 is also available (*note Find a relative of the current sequence::).
 
 
-File: docWaexA6.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
+File: doc87b3cn.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
 
 2 Installation
 **************
@@ -359,7 +343,7 @@ File: docWaexA6.info,  Node: Installation,  Next: Sample configuration,  Prev: S
 * Manual installation::
 
 
-File: docWaexA6.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: doc87b3cn.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -378,7 +362,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docWaexA6.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: doc87b3cn.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -405,7 +389,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docWaexA6.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: doc87b3cn.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -435,7 +419,7 @@ File: docWaexA6.info,  Node: Sample configuration,  Next: Acknowledgements,  Pre
 
 
 
-File: docWaexA6.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
+File: doc87b3cn.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -453,7 +437,7 @@ Ideas and/or user feedback
      Mirko Hernandez.
 
 
-File: docWaexA6.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: doc87b3cn.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -935,7 +919,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docWaexA6.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: doc87b3cn.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 B Indices
 *********
@@ -947,7 +931,7 @@ B Indices
 * Concept index::
 
 
-File: docWaexA6.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: doc87b3cn.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 B.1 Function index
 ==================
@@ -956,32 +940,32 @@ B.1 Function index
 * Menu:
 
 * denote-sequence:                       Create parent child or sibling sequence notes.
-                                                               (line 22)
+                                                               (line 20)
 * denote-sequence-convert:               Convert from one sequencing scheme to another.
-                                                               (line 13)
+                                                               (line 11)
 * denote-sequence-dired:                 Show all or some sequences in a Dired buffer.
-                                                               (line 13)
+                                                               (line 11)
 * denote-sequence-find:                  Find a relative of the current sequence.
-                                                               (line  8)
+                                                               (line  6)
 * denote-sequence-find-dired:            Find a relative of the current sequence.
-                                                               (line 14)
+                                                               (line 12)
 * denote-sequence-link:                  Link only to sequences.
-                                                               (line  8)
+                                                               (line  6)
 * denote-sequence-new-child:             Create parent child or sibling sequence notes.
-                                                               (line 35)
+                                                               (line 33)
 * denote-sequence-new-child-of-current:  Create parent child or sibling sequence notes.
-                                                               (line 40)
+                                                               (line 38)
 * denote-sequence-new-parent:            Create parent child or sibling sequence notes.
-                                                               (line 31)
+                                                               (line 29)
 * denote-sequence-new-sibling:           Create parent child or sibling sequence notes.
-                                                               (line 45)
+                                                               (line 43)
 * denote-sequence-new-sibling-of-current: Create parent child or sibling sequence notes.
-                                                               (line 50)
+                                                               (line 48)
 * denote-sequence-reparent:              Re-parent a file to extend a given sequence.
-                                                               (line  8)
+                                                               (line  6)
 
 
-File: docWaexA6.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: doc87b3cn.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 B.2 Variable index
 ==================
@@ -990,10 +974,10 @@ B.2 Variable index
 * Menu:
 
 * denote-sequence-scheme:                Select a sequencing scheme for denote-sequence-scheme.
-                                                                (line 8)
+                                                                (line 6)
 
 
-File: docWaexA6.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: doc87b3cn.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 B.3 Concept index
 =================
@@ -1010,23 +994,23 @@ B.3 Concept index
 Tag Table:
 Node: Top872
 Node: Sequence notes3404
-Node: Select a sequencing scheme for denote-sequence-scheme6044
-Node: Convert from one sequencing scheme to another7792
-Node: Create parent child or sibling sequence notes8994
-Node: Find a relative of the current sequence11608
-Node: Link only to sequences12434
-Node: Re-parent a file to extend a given sequence13267
-Node: Show all or some sequences in a Dired buffer14010
-Node: Installation15499
-Node: GNU ELPA package15692
-Node: Manual installation16262
-Node: Sample configuration17067
-Node: Acknowledgements18172
-Node: GNU Free Documentation License18590
-Node: Indices43951
-Node: Function index44127
-Node: Variable index46167
-Node: Concept index46503
+Node: Select a sequencing scheme for denote-sequence-scheme5984
+Node: Convert from one sequencing scheme to another7672
+Node: Create parent child or sibling sequence notes8814
+Node: Find a relative of the current sequence11368
+Node: Link only to sequences12134
+Node: Re-parent a file to extend a given sequence12907
+Node: Show all or some sequences in a Dired buffer13590
+Node: Installation15019
+Node: GNU ELPA package15212
+Node: Manual installation15782
+Node: Sample configuration16587
+Node: Acknowledgements17692
+Node: GNU Free Documentation License18110
+Node: Indices43471
+Node: Function index43647
+Node: Variable index45687
+Node: Concept index46023
 
 End Tag Table
 
