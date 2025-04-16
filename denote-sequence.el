@@ -5,7 +5,7 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/denote-sequence
-;; Version: 0.0.0.1
+;; Version: 0.1.0
 ;; Package-Requires: ((emacs "28.1") (denote "3.1.0"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -517,9 +517,11 @@ optional PREPEND-DELIMITER is non-nil, prepend the equals sign to the
 number if `denote-sequence-scheme' is numeric."
   (pcase denote-sequence-scheme
     ('numeric (if prepend-delimiter "=1" "1"))
-    ('alphanumeric (if (denote-sequence--alphanumeric-partial-p (substring sequence -1))
-                       "1"
-                     "a"))))
+    ('alphanumeric
+     (cond
+      ((null sequence) "1")
+      ((and sequence (denote-sequence--alphanumeric-partial-p (substring sequence -1))) "1")
+      (t "a")))))
 
 (defun denote-sequence--get-new-parent (&optional sequences)
   "Return a new to increment largest among sequences.
