@@ -5,8 +5,8 @@
 ;; Author: Protesilaos Stavrou <info@protesilaos.com>
 ;; Maintainer: Protesilaos Stavrou <info@protesilaos.com>
 ;; URL: https://github.com/protesilaos/denote-sequence
-;; Version: 0.1.0
-;; Package-Requires: ((emacs "28.1") (denote "3.1.0"))
+;; Version: 0.1.1
+;; Package-Requires: ((emacs "28.1") (denote "4.0.0"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -109,6 +109,13 @@ zx (z is 26 and x is 25)."
              (string-match-p "\\`[0-9]+" sequence)
              (not (string-match-p "=" sequence)))
     sequence))
+
+(defun denote-sequence-user-selected-scheme-p (sequence)
+  "Return SEQUENCE if it is consistent with `denote-sequence-scheme'.
+Also see `denote-sequence-alphanumeric-p' and `denote-sequence-numeric-p'."
+  (pcase denote-sequence-scheme
+    ('numeric (denote-sequence-numeric-p sequence))
+    ('alphanumeric (denote-sequence-alphanumeric-p sequence))))
 
 (defun denote-sequence-p (sequence)
   "Return SEQUENCE string is of a supported scheme.
@@ -374,14 +381,15 @@ PREFIX is a list of strings containing the components of the prefix
 sequence, as is returned by `denote-sequence-split'.
 
 If PREFIX is nil, return non-nil as if the SEQUENCE has PREFIX."
-  (let ((value (denote-sequence-split sequence))
-        (depth (length prefix))
-        (matched 0))
-    (while (and value
-                (< matched depth)
-                (string-equal (pop value) (nth matched prefix)))
-      (setq matched (1+ matched)))
-    (= matched depth)))
+  (when (denote-sequence-user-selected-scheme-p sequence)
+    (let ((value (denote-sequence-split sequence))
+          (depth (length prefix))
+          (matched 0))
+      (while (and value
+                  (< matched depth)
+                  (string-equal (pop value) (nth matched prefix)))
+        (setq matched (1+ matched)))
+      (= matched depth))))
 
 (defun denote-sequence-get-all-files-with-prefix (sequence &optional files)
   "Return all files in variable `denote-directory' with prefix SEQUENCE.
