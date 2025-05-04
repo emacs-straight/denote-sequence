@@ -290,11 +290,16 @@ which case convert the entirety of it.  Also see `denote-sequence-scheme'."
         (error "String `%s' did not pass `denote-sequence-p'" string)
       (error "The `%s' must not contain both numbers and letters" string)))))
 
-(defun denote-sequence-increment (string)
+(define-obsolete-function-alias
+  'denote-sequence-increment
+  'denote-sequence-increment-partial
+  "0.2.0")
+
+(defun denote-sequence-increment-partial (string)
   "Increment number represented by STRING and return it as a string.
 STRING is part of a sequence, not the entirety of it.
 
-Also see `denote-sequence-decrement'."
+Also see `denote-sequence-decrement-partial'."
   (cond
    ((denote-sequence--numeric-partial-p string)
     (number-to-string (+ (string-to-number string) 1)))
@@ -318,11 +323,11 @@ Also see `denote-sequence-decrement'."
    (t
     (error "The string `%s' must contain only numbers or letters" string))))
 
-(defun denote-sequence-decrement (string)
+(defun denote-sequence-decrement-partial (string)
   "Decrement number represented by STRING and return it as a string.
 STRING is part of a sequence, not the entirety of it.
 
-Also see `denote-sequence-increment'."
+Also see `denote-sequence-increment-partial'."
   (cond
    ((denote-sequence--numeric-partial-p string)
     (let ((number (string-to-number string)))
@@ -388,6 +393,23 @@ depth given SEQUENCE."
                            (t (error "Unknown type of sequence for `%s'" last-component)))))
     (denote-sequence-join (list sequence new-depth) scheme)))
 
+(defun denote-sequence--infer-sibling (sequence direction)
+  "Get sibling of SEQUENCE in DIRECTION `next' or `previous'.
+Do not actually try to create a new sibling nor to test for the
+existence of one.  Simply do the work of finding the next or previous
+sibling in the sequence."
+  (pcase-let* ((`(,sequence . ,scheme) (denote-sequence-and-scheme-p sequence))
+               (components (denote-sequence-split sequence))
+               (butlast (butlast components))
+               (last-component (car (nreverse components)))
+               (direction-fn (pcase direction
+                               ('next #'denote-sequence-increment-partial)
+                               ('previous #'denote-sequence-decrement-partial)
+                               (_ (error "Unknown DIRECTION `%s'" direction))))
+               (new-number (funcall direction-fn last-component)))
+    (when new-number
+      (denote-sequence-join (append butlast (list new-number)) scheme))))
+
 (defun denote-sequence--get-files (&optional files)
   "Return list of files or buffers in the variable `denote-directory'.
 With optional FILES only consider those, otherwise use `denote-directory-files'."
@@ -403,6 +425,26 @@ A sequence is a Denote signature that conforms with `denote-sequence-p'.
 With optional FILES consider only those, otherwise use the return value
 of `denote-directory-files'."
   (seq-filter #'denote-sequence-file-p (denote-sequence--get-files files)))
+
+(defun denote-sequence-get-path (sequence &optional files)
+  "Return absolute path of file with SEQUENCE.
+Search in the return value of `denote-sequence-get-all-files' or in FILES."
+  (let ((files
+         (seq-filter
+          (lambda (file)
+            (string= sequence (denote-retrieve-filename-signature file)))
+          (denote-sequence-get-all-files files))))
+    (if (length< files 2)
+        (car files)
+      (seq-find
+       (lambda (file)
+         (let ((file-extension (denote-get-file-extension-sans-encryption file)))
+           (and (denote-file-has-supported-extension-p file)
+                (or (string= (denote--file-extension denote-file-type)
+                             file-extension)
+                    (string= ".org" file-extension)
+                    (member file-extension (denote-file-type-extensions))))))
+       files))))
 
 (defun denote-sequence--sequence-prefix-p (prefix sequence)
   "Return non-nil if SEQUENCE has prefix sequence PREFIX.
@@ -599,7 +641,7 @@ function `denote-sequence-get-all-sequences-with-prefix'."
                              (components (denote-sequence-split largest))
                              (butlast (butlast components))
                              (last-component (car (nreverse components)))
-                             (new-number (denote-sequence-increment last-component)))
+                             (new-number (denote-sequence-increment-partial last-component)))
                   (denote-sequence-join
                    (if butlast
                        (append butlast (list new-number))
@@ -637,7 +679,7 @@ function `denote-sequence-get-all-sequences-with-prefix'."
                          (components (denote-sequence-split largest))
                          (butlast (butlast components))
                          (last-component (car (nreverse components)))
-                         (new-number (denote-sequence-increment last-component)))
+                         (new-number (denote-sequence-increment-partial last-component)))
               (denote-sequence-join (append butlast (list new-number)) scheme))
           (number-to-string (+ (string-to-number largest) 1)))
       (error "Cannot find sequences given sequence `%s' using scheme `%s'" sequence denote-sequence-scheme))))
@@ -837,6 +879,26 @@ If the current file does not have a sequence, then behave exactly like
   (let* ((new-sequence (denote-sequence-get-new 'child sequence))
          (denote-use-signature new-sequence))
     (call-interactively 'denote)))
+
+;;;###autoload
+(defun denote-sequence-find-next-sibling (sequence)
+  "Visit the next sibling of file with SEQUENCE."
+  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE")))
+  (if-let* ((relatives (denote-sequence-get-relative sequence 'siblings))
+            (next-sequence (denote-sequence--infer-sibling sequence 'next))
+            (path (denote-sequence-get-path next-sequence relatives)))
+      (find-file path)
+    (user-error "No next sibling for sequence `%s'" sequence)))
+
+;;;###autoload
+(defun denote-sequence-find-previous-sibling (sequence)
+  "Visit the previous sibling of file with SEQUENCE."
+  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE")))
+  (if-let* ((relatives (denote-sequence-get-relative sequence 'siblings))
+            (previous-sequence (denote-sequence--infer-sibling sequence 'previous))
+            (path (denote-sequence-get-path previous-sequence relatives)))
+      (find-file path)
+    (user-error "No previous sibling for sequence `%s'" sequence)))
 
 (defvar denote-sequence-relative-types
   '(all-parents parent siblings children all-children)
