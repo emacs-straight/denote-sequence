@@ -1066,6 +1066,14 @@ Also see `denote-sequence-dired'."
         (user-error "The sequence `%s' has no relatives of type `%s'" sequence type))
     (user-error "The current file has no sequence")))
 
+(defun denote-sequence--get-current-file-for-renaming ()
+  "Return path to file for a rename operation.
+The path is that of the special Org buffer (like `org-capture'), the
+file at point in a Dired buffer, or the variable `buffer-file-name'."
+  (if (denote--file-type-org-extra-p)
+      denote-last-path-after-rename
+    (denote--rename-dired-file-or-current-file-or-prompt)))
+
 ;; TODO 2025-01-14: We need to have an operation that reparents
 ;; recursively.  This can be done inside of the `denote-sequence-reparent',
 ;; where if it finds that the current file has children, it prompts
@@ -1092,9 +1100,7 @@ such (per `denote-sequence-p').  In both cases, what matters is to know
 the target sequence."
   (interactive
    (list
-    (if (denote--file-type-org-extra-p)
-        denote-last-path-after-rename
-      (denote--rename-dired-file-or-current-file-or-prompt))
+    (denote-sequence--get-current-file-for-renaming)
     (denote-sequence-file-prompt
      (format "Reparent `%s' to be a child of"
              (propertize
@@ -1104,6 +1110,21 @@ the target sequence."
                               (denote-sequence-p file-with-sequence)
                               (user-error "No sequence of `denote-sequence-p' found in `%s'" file-with-sequence)))
          (new-sequence (denote-sequence--get-new-child target-sequence)))
+    (denote-rename-file current-file 'keep-current 'keep-current new-sequence 'keep-current)))
+
+;;;###autoload
+(defun denote-sequence-rename-as-parent (current-file)
+  "Make CURRENT-FILE a new parent sequence.
+If CURRENT-FILE has a sequence abort the operation.
+
+When called interactively, CURRENT-FILE is either the current file, or a
+special Org buffer (like those of `org-capture'), or the file at point
+in Dired.  When called from Lisp, CURRENT-FILE is a string pointing to a
+file."
+  (interactive (list (denote-sequence--get-current-file-for-renaming)))
+  (when (denote-sequence-file-p current-file)
+    (user-error "The `%s' already has a sequence; aborting" current-file))
+  (let ((new-sequence (denote-sequence--get-new-parent)))
     (denote-rename-file current-file 'keep-current 'keep-current new-sequence 'keep-current)))
 
 ;;;###autoload
