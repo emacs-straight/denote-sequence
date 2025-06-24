@@ -418,6 +418,8 @@ With optional FILES only consider those, otherwise use `denote-directory-files'.
          (buffers (denote--buffer-file-names)))
     (delete-dups (append buffers files))))
 
+;; TODO 2025-06-23: Return cons cells with sequences and files.  This
+;; is to be able to do an `alist-get' to get a path given a sequence.
 (defun denote-sequence-get-all-files (&optional files)
   "Return all files in variable `denote-directory' with a sequence.
 A sequence is a Denote signature that conforms with `denote-sequence-p'.
@@ -1030,18 +1032,11 @@ For a more specialised case, see `denote-sequence-find-relatives-dired'."
             (files-with-depth (if depth
                                   (denote-sequence-get-all-files-with-max-depth depth all)
                                 all))
-            (files-sorted (denote-sequence-sort-files files-with-depth))
+            (files-sorted (denote-sequence-sort-files files-with-depth)))
+      (let ((dired-buffer (dired (cons default-directory (mapcar #'file-relative-name files-sorted))))
             (buffer-name (denote-sequence--get-dired-buffer-name prefix depth)))
-      (let ((dired-buffer (dired (cons buffer-name (mapcar #'file-relative-name files-sorted)))))
         (with-current-buffer dired-buffer
-          (setq-local revert-buffer-function
-                      (lambda (&rest _)
-                        ;; FIXME 2025-01-04: Killing the buffer has
-                        ;; the unintended side effect of affecting the
-                        ;; window configuration when we call
-                        ;; `denote-update-dired-buffers'.
-                        (kill-buffer dired-buffer)
-                        (denote-sequence-dired prefix depth)))))
+          (rename-buffer buffer-name :unique)))
     (user-error "No Denote sequences matching those terms")))
 
 ;;;###autoload
