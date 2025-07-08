@@ -410,13 +410,9 @@ sibling in the sequence."
     (when new-number
       (denote-sequence-join (append butlast (list new-number)) scheme))))
 
-(defun denote-sequence--get-files (&optional files)
-  "Return list of files or buffers in the variable `denote-directory'.
-With optional FILES only consider those, otherwise use `denote-directory-files'."
-  (let* ((denote-directory (or denote-use-directory (denote-directory)))
-         (files (denote-directory-files))
-         (buffers (denote--buffer-file-names)))
-    (delete-dups (append buffers files))))
+(defun denote-sequence--get-files (files)
+  "Return list of FILES plus any buffers in the variable `denote-directory'."
+  (delete-dups (append (denote--buffer-file-names) files)))
 
 ;; TODO 2025-06-23: Return cons cells with sequences and files.  This
 ;; is to be able to do an `alist-get' to get a path given a sequence.
@@ -426,7 +422,8 @@ A sequence is a Denote signature that conforms with `denote-sequence-p'.
 
 With optional FILES consider only those, otherwise use the return value
 of `denote-directory-files'."
-  (seq-filter #'denote-sequence-file-p (denote-sequence--get-files files)))
+  (when-let* ((files (denote-sequence--get-files (or files (denote-directory-files)))))
+    (seq-filter #'denote-sequence-file-p files)))
 
 (defun denote-sequence-get-path (sequence &optional files)
   "Return absolute path of file with SEQUENCE.
@@ -1025,19 +1022,26 @@ For a more specialised case, see `denote-sequence-find-relatives-dired'."
         (denote-sequence-prompt "Limit to files that extend SEQUENCE (empty for all)")))
       (t
        nil))))
-  (if-let* ((default-directory (denote-directory))
-            (all (if prefix
-                     (denote-sequence-get-all-files-with-prefix prefix)
-                   (denote-sequence-get-all-files)))
-            (files-with-depth (if depth
-                                  (denote-sequence-get-all-files-with-max-depth depth all)
-                                all))
-            (files-sorted (denote-sequence-sort-files files-with-depth)))
-      (let ((dired-buffer (dired (cons default-directory (mapcar #'file-relative-name files-sorted))))
-            (buffer-name (denote-sequence--get-dired-buffer-name prefix depth)))
-        (with-current-buffer dired-buffer
-          (rename-buffer buffer-name :unique)))
-    (user-error "No Denote sequences matching those terms")))
+  (pcase-let* ((relative-p (denote-has-single-denote-directory-p))
+               (files-fn `(lambda ()
+                            (let* ((files (if ,prefix
+                                              (denote-sequence-get-all-files-with-prefix ,prefix)
+                                            (denote-sequence-get-all-files)))
+                                   (files-with-depth (if ,depth
+                                                         (denote-sequence-get-all-files-with-max-depth ,depth files)
+                                                       files))
+                                   (files-sorted (denote-sequence-sort-files files-with-depth)))
+                              (if ,relative-p
+                                  (mapcar #'file-relative-name files-sorted)
+                                files-sorted)))))
+    (if-let* ((directory (if relative-p ; see comment in `denote-file-prompt'
+                             (car (denote-directories))
+                           (denote-sort-dired--find-common-directory (denote-directories))))
+              (files (funcall files-fn))
+              (dired-name (format-message "prefix `%s'; depth `%s'" (or prefix "ALL") (or depth "ALL")))
+              (buffer-name dired-name))
+        (denote-sort-dired--prepare-buffer directory files-fn dired-name buffer-name)
+      (message "No matching files for: %s" files-matching-regexp))))
 
 ;;;###autoload
 (defun denote-sequence-find-dired (type)
