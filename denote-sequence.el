@@ -353,6 +353,12 @@ Also see `denote-sequence-increment-partial'."
    (t
     (error "The string `%s' must contain only numbers or letters" string))))
 
+(defun denote-sequence--sequence-start-p (sequence)
+  "True if deepest part of sequence is 1 or a."
+  (pcase-let* ((components (denote-sequence-split sequence))
+               (last-component (car (nreverse components))))
+    (or (string= last-component "1") (string= last-component "a"))))
+
 (defun denote-sequence-depth (sequence)
   "Get the depth of SEQUENCE.
 For example, 1=2=1 and 1b1 are three levels of depth."
@@ -720,23 +726,26 @@ returned by `denote-sequence-get-all-files'."
                              (funcall comparison (denote-sequence-depth (denote-retrieve-filename-signature file)) depth))
                            (denote-sequence-get-all-files-with-prefix prefix files)))))
     (pcase type
-      ('all-parents (let ((parents nil)
-                          (butlast (butlast components)))
-                      (while (> (length butlast) 1)
-                        (when-let* ((prefix (denote-sequence-join butlast scheme))
-                                    (parent (seq-find
-                                             (lambda (file)
-                                               (string= (denote-retrieve-filename-signature file) prefix))
-                                             (denote-sequence-get-all-files files))))
-                          (push parent parents)
-                          (setq butlast (butlast butlast))))
-                      parents))
+      ('all-parents (let ((parent-files nil)
+                          (butlast (butlast components))
+                          (found-files (denote-sequence-get-all-files files))
+                          (likely-parents nil))
+                      (while (>= (length butlast) 1)
+                        (push (denote-sequence-join butlast scheme) likely-parents)
+                        (setq butlast (butlast butlast)))
+                      (seq-filter
+                       (lambda (file)
+                         (member (denote-retrieve-filename-signature file) likely-parents))
+                       found-files)))
       ('parent (let ((butlast (denote-sequence-join (butlast components) scheme)))
                  (seq-find
                   (lambda (file)
                     (string= (denote-retrieve-filename-signature file) butlast))
                   (denote-sequence-get-all-files files))))
-      ('siblings (funcall filter-common '= (denote-sequence-join (butlast components) scheme)))
+      ('siblings
+       (when-let* ((siblings (funcall filter-common '= (denote-sequence-join (butlast components) scheme)))
+                   (current-path (denote-sequence-get-path sequence)))
+         (delete current-path siblings)))
       ('all-children (funcall filter-common '> sequence))
       ('children (seq-filter
                   (lambda (file)
@@ -898,7 +907,11 @@ If the current file does not have a sequence, then behave exactly like
             (next-sequence (denote-sequence--infer-sibling sequence 'next))
             (path (denote-sequence-get-path next-sequence relatives)))
       (find-file path)
-    (user-error "No next sibling for sequence `%s'" sequence)))
+    (let* ((youngest-sibling (denote-sequence-get-new 'sibling sequence)))
+      (if (string= next-sequence youngest-sibling)
+          (user-error "No next sibling for sequence `%s'" sequence)
+        ;; Might be more siblings; keep looking
+        (denote-sequence-find-next-sibling next-sequence)))))
 
 ;;;###autoload
 (defun denote-sequence-find-previous-sibling (sequence)
@@ -908,7 +921,10 @@ If the current file does not have a sequence, then behave exactly like
             (previous-sequence (denote-sequence--infer-sibling sequence 'previous))
             (path (denote-sequence-get-path previous-sequence relatives)))
       (find-file path)
-    (user-error "No previous sibling for sequence `%s'" sequence)))
+    (if (denote-sequence--sequence-start-p sequence)
+        (user-error "No previous sibling for sequence `%s'" sequence)
+      ;; Skip this one and keep looking
+      (denote-sequence-find-previous-sibling previous-sequence))))
 
 (defvar denote-sequence-relative-types
   '(all-parents parent siblings children all-children)
@@ -937,8 +953,7 @@ for a file among the matching files."
                                  '(all-parents parent siblings children all-children)
                                  #'denote-sequence-annotate-relative-types)))
   (if-let* ((sequence (denote-sequence-file-p buffer-file-name)))
-      (if-let* ((matches (denote-sequence-get-relative sequence type))
-                (relatives (delete buffer-file-name matches)))
+      (if-let* ((relatives (denote-sequence-get-relative sequence type)))
           (find-file (if (stringp relatives)
                          relatives
                        (denote-sequence-file-prompt "Select a relative" relatives)))
@@ -1081,9 +1096,7 @@ Also see `denote-sequence-dired'."
                                         children))))
   (if-let* ((sequence (denote-sequence-file-p buffer-file-name)))
       (if-let* ((default-directory (denote-directory))
-                (relatives (delete buffer-file-name
-                                   (ensure-list
-                                    (denote-sequence-get-relative sequence type))))
+                (relatives (ensure-list (denote-sequence-get-relative sequence type)))
                 (files-sorted (denote-sequence-sort-files relatives)))
           (dired (cons (format-message "*`%s' type relatives of `%s'" type sequence)
                        (mapcar #'file-relative-name files-sorted)))
