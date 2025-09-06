@@ -259,6 +259,40 @@ function `denote-sequence-get-relative'."
   (should (null (denote-sequence--infer-sibling "1=1" 'previous)))
   (should (null (denote-sequence--infer-sibling "1a" 'previous))))
 
+(ert-deftest dst-denote-sequence--keep-siblings ()
+  "Test that `denote-sequence--keep-siblings' behaves as expected."
+  (should (equal
+           (denote-sequence--keep-siblings :greater "1b" '("1f" "1b" "1a" "1d" "1e" "1c"))
+           '("1c" "1d" "1e" "1f")))
+  (should (equal
+           (denote-sequence--keep-siblings :lesser "1d" '("1f" "1b" "1a" "1d" "1e" "1c"))
+           '("1a" "1b" "1c")))
+  (should (null (denote-sequence--keep-siblings :greater "1f" '("1f" "1b" "1a" "1d" "1e" "1c"))))
+  (should (null (denote-sequence--keep-siblings :lesser "1a" '("1f" "1b" "1a" "1d" "1e" "1c")))))
+
+(defun dst-denote-sequence--keep-sibling-files-helper (lesser-or-greater sequence)
+  "Use LESSER-OR-GREATER with SEQUENCE to do `denote-sequence--keep-sibling-files'."
+  (let ((files '("00000000T000000==1b--title__keywords.org"
+                 "00000000T000000==1w--title__keywords.org"
+                 "00000000T000000==1d--title__keywords.org"
+                 "00000000T000000==1a--title__keywords.org"
+                 "00000000T000000==1c--title__keywords.org")))
+    (denote-sequence--keep-sibling-files lesser-or-greater sequence files)))
+
+(ert-deftest dst-denote-sequence--keep-sibling-files ()
+  "Test that `denote-sequence--keep-sibling-files' behaves as expected."
+  (should (equal
+           (dst-denote-sequence--keep-sibling-files-helper :greater "1b")
+           '("00000000T000000==1b--title__keywords.org"
+             "00000000T000000==1c--title__keywords.org"
+             "00000000T000000==1d--title__keywords.org"
+             "00000000T000000==1w--title__keywords.org")))
+  (should (equal
+           (dst-denote-sequence--keep-sibling-files-helper :lesser "1b")
+           '("00000000T000000==1a--title__keywords.org")))
+  (should (null (dst-denote-sequence--keep-sibling-files-helper :greater "1z")))
+  (should (null (dst-denote-sequence--keep-sibling-files-helper :lesser "1a"))))
+
 (provide 'denote-sequence-test)
 ;;; denote-sequence-test.el ends here
 

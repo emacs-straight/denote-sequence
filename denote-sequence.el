@@ -353,12 +353,6 @@ Also see `denote-sequence-increment-partial'."
    (t
     (error "The string `%s' must contain only numbers or letters" string))))
 
-(defun denote-sequence--sequence-start-p (sequence)
-  "True if deepest part of sequence is 1 or a."
-  (pcase-let* ((components (denote-sequence-split sequence))
-               (last-component (car (nreverse components))))
-    (or (string= last-component "1") (string= last-component "a"))))
-
 (defun denote-sequence-depth (sequence)
   "Get the depth of SEQUENCE.
 For example, 1=2=1 and 1b1 are three levels of depth."
@@ -564,6 +558,28 @@ means to pad the full length of the sequence."
          "=")
       (string-pad s 32 32 :pad-from-start))))
 
+(defun denote-sequence-sort-sequences (sequences)
+  "Sort SEQUENCES according to their sequence.
+Also see `denote-sequence-sort-files'."
+  (sort
+   sequences
+   (lambda (sequence1 sequence2)
+       (string<
+        (denote-sequence--pad sequence1 'all)
+        (denote-sequence--pad sequence2 'all)))))
+
+(defun denote-sequence-sort-files (files-with-sequence)
+  "Sort FILES-WITH-SEQUENCE according to their sequence.
+Also see `denote-sequence-sort-sequences'."
+  (sort
+   files-with-sequence
+   (lambda (file-with-sequence-1 file-with-sequence-2)
+     (let ((s1 (denote-retrieve-filename-signature file-with-sequence-1))
+           (s2 (denote-retrieve-filename-signature file-with-sequence-2)))
+       (string<
+        (denote-sequence--pad s1 'all)
+        (denote-sequence--pad s2 'all))))))
+
 (defun denote-sequence--get-largest-by-order (sequences type)
   "Sort SEQUENCES of TYPE to get largest in order, using `denote-sequence--pad'."
   (car
@@ -674,7 +690,7 @@ function `denote-sequence-get-all-sequences-with-prefix'."
       (denote-sequence-join (butlast (denote-sequence-split sequence)) scheme))))
 
 (defun denote-sequence--get-new-sibling (sequence &optional sequences)
-  "Return a new sibling SEQUENCE.
+  "Return a new sibling of SEQUENCE.
 Optional SEQUENCES has the same meaning as that specified in the
 function `denote-sequence-get-all-sequences-with-prefix'."
   (let* ((children-p (denote-sequence--children-implied-p sequence)))
@@ -726,31 +742,35 @@ returned by `denote-sequence-get-all-files'."
                              (funcall comparison (denote-sequence-depth (denote-retrieve-filename-signature file)) depth))
                            (denote-sequence-get-all-files-with-prefix prefix files)))))
     (pcase type
-      ('all-parents (let ((parent-files nil)
-                          (butlast (butlast components))
-                          (found-files (denote-sequence-get-all-files files))
-                          (likely-parents nil))
-                      (while (>= (length butlast) 1)
-                        (push (denote-sequence-join butlast scheme) likely-parents)
-                        (setq butlast (butlast butlast)))
-                      (seq-filter
-                       (lambda (file)
-                         (member (denote-retrieve-filename-signature file) likely-parents))
-                       found-files)))
-      ('parent (let ((butlast (denote-sequence-join (butlast components) scheme)))
-                 (seq-find
-                  (lambda (file)
-                    (string= (denote-retrieve-filename-signature file) butlast))
-                  (denote-sequence-get-all-files files))))
+      ('all-parents
+       (let ((parent-files nil)
+             (butlast (butlast components))
+             (found-files (denote-sequence-get-all-files files))
+             (likely-parents nil))
+         (while (>= (length butlast) 1)
+           (push (denote-sequence-join butlast scheme) likely-parents)
+           (setq butlast (butlast butlast)))
+         (seq-filter
+          (lambda (file)
+            (member (denote-retrieve-filename-signature file) likely-parents))
+          found-files)))
+      ('parent
+       (let ((butlast (denote-sequence-join (butlast components) scheme)))
+         (seq-find
+          (lambda (file)
+            (string= (denote-retrieve-filename-signature file) butlast))
+          (denote-sequence-get-all-files files))))
       ('siblings
        (when-let* ((siblings (funcall filter-common '= (denote-sequence-join (butlast components) scheme)))
                    (current-path (denote-sequence-get-path sequence)))
          (delete current-path siblings)))
-      ('all-children (funcall filter-common '> sequence))
-      ('children (seq-filter
-                  (lambda (file)
-                    (= (denote-sequence-depth (denote-sequence-file-p file)) (+ depth 1)))
-                  (funcall filter-common '> sequence)))
+      ('all-children
+       (funcall filter-common '> sequence))
+      ('children
+       (seq-filter
+        (lambda (file)
+          (= (denote-sequence-depth (denote-sequence-file-p file)) (+ depth 1)))
+        (funcall filter-common '> sequence)))
       (_ (error "The type `%s' is not among the allowed types" type)))))
 
 (defvar denote-sequence-type-history nil
@@ -899,32 +919,76 @@ If the current file does not have a sequence, then behave exactly like
          (denote-use-signature new-sequence))
     (call-interactively 'denote)))
 
-;;;###autoload
-(defun denote-sequence-find-next-sibling (sequence)
-  "Visit the next sibling of file with SEQUENCE."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE")))
-  (if-let* ((relatives (denote-sequence-get-relative sequence 'siblings))
-            (next-sequence (denote-sequence--infer-sibling sequence 'next))
-            (path (denote-sequence-get-path next-sequence relatives)))
-      (find-file path)
-    (let* ((youngest-sibling (denote-sequence-get-new 'sibling sequence)))
-      (if (string= next-sequence youngest-sibling)
-          (user-error "No next sibling for sequence `%s'" sequence)
-        ;; Might be more siblings; keep looking
-        (denote-sequence-find-next-sibling next-sequence)))))
+(defun denote-sequence--keep-siblings (lesser-or-greater sequence sequences)
+  "Return LESSER-OR-GREATER sequences of SEQUENCE among SEQUENCES.
+LESSER-OR-GREATER is the keyword `:lesser' or `:greater'.  SEQUENCES are
+siblings of SEQUENCE."
+  (let* ((sequences-copy (copy-sequence sequences))
+         (all-sequences (delete-dups (push sequence sequences-copy)))
+         (sorted (denote-sequence-sort-sequences all-sequences))
+         (position (seq-position sorted sequence #'string=)))
+    (pcase lesser-or-greater
+      (:lesser (seq-take sorted position))
+      (:greater (nthcdr (+ position 1) sorted))
+      (_ (error "The `%S' is not a known operation" lesser-or-greater)))))
+
+;; NOTE 2025-09-05: The `denote-sequence--keep-sibling-files' will
+;; always return :greater if the phony-target is part of the
+;; files-with-sequences and is in the last position.  More generally,
+;; the :greater lists the phony target if it already is a part of
+;; files-with-sequences.  The way we use this function for the
+;; `denote-sequence-find-next-sibling' should not be a problem, but we
+;; might want to be more strict if you use this elsewhere.
+(defun denote-sequence--keep-sibling-files (lesser-or-greater sequence files-with-sequences)
+  "Return LESSER-OR-GREATER sequences of SEQUENCE among FILES-WITH-SEQUENCES.
+LESSER-OR-GREATER is the keyword `:lesser' or `:greater'.
+FILES-WITH-SEQUENCES are siblings of SEQUENCE."
+  (if-let* ((phony-target (denote-format-file-name (car (denote-directories)) "00000000T000000" '("keyword") "title" ".org" sequence))
+            (_ (denote-sequence-file-p phony-target)))
+      (let* ((files-with-sequences-copy (copy-sequence files-with-sequences))
+             (all-sequences (delete-dups (push phony-target files-with-sequences-copy)))
+             (sorted (denote-sequence-sort-files all-sequences))
+             (position (seq-position sorted phony-target #'string=)))
+        (pcase lesser-or-greater
+          (:lesser (seq-take sorted position))
+          (:greater (nthcdr (+ position 1) sorted))
+          (_ (error "The `%S' is not a known operation" lesser-or-greater))))
+    (error "Cannot have a file path that satisfies `denote-sequence-file-p' while using sequence `%s'" sequence)))
+
+(defun denote-sequence-find-next-prev-sibling-subr (next-or-previous sequence relatives)
+  "Subroutine for `denote-sequence-find-next-sibling' and `denote-sequence-find-previous-sibling'.
+The NEXT-OR-PREVIOUS is the direction to move towards.  It is the symbol
+`next' or `previous'.  SEQUENCE is the one to find siblings for.
+RELATIVES is a list of files that are already known to pertain to
+SEQUENCE."
+  (let ((relatives (or relatives (denote-sequence-get-relative sequence 'siblings))))
+    (if-let* ((_ relatives)
+              (next-in-line (denote-sequence--infer-sibling sequence next-or-previous))
+              (path (denote-sequence-get-path next-in-line relatives)))
+        (find-file path)
+      (if-let* ((_ next-in-line)
+                (lesser-or-greater (if (eq next-or-previous 'next) :greater :lesser))
+                (remaining-siblings (denote-sequence--keep-sibling-files lesser-or-greater next-in-line relatives)))
+          (denote-sequence-find-next-prev-sibling-subr next-or-previous next-in-line remaining-siblings)
+        (user-error "No `%s' sibling for sequence `%s'" next-or-previous sequence)))))
 
 ;;;###autoload
-(defun denote-sequence-find-previous-sibling (sequence)
-  "Visit the previous sibling of file with SEQUENCE."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE")))
-  (if-let* ((relatives (denote-sequence-get-relative sequence 'siblings))
-            (previous-sequence (denote-sequence--infer-sibling sequence 'previous))
-            (path (denote-sequence-get-path previous-sequence relatives)))
-      (find-file path)
-    (if (denote-sequence--sequence-start-p sequence)
-        (user-error "No previous sibling for sequence `%s'" sequence)
-      ;; Skip this one and keep looking
-      (denote-sequence-find-previous-sibling previous-sequence))))
+(defun denote-sequence-find-next-sibling (sequence relatives)
+  "Visit the next sibling of file with SEQUENCE.
+When called from Lisp RELATIVES is the list of files to search through.
+In interactive use, this happens internally when an immediate next
+sibling is not available and the search needs to be repeated."
+  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (denote-sequence-find-next-prev-sibling-subr 'next sequence relatives))
+
+;;;###autoload
+(defun denote-sequence-find-previous-sibling (sequence relatives)
+  "Visit the previous sibling of file with SEQUENCE.
+When called from Lisp RELATIVES is the list of files to search through.
+In interactive use, this happens internally when an immediate previous
+sibling is not available and the search needs to be repeated."
+  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (denote-sequence-find-next-prev-sibling-subr 'previous sequence relatives))
 
 (defvar denote-sequence-relative-types
   '(all-parents parent siblings children all-children)
@@ -975,17 +1039,6 @@ Optional ID-ONLY has the same meaning as the `denote-link' command."
   (let* ((type (denote-filetype-heuristics buffer-file-name))
          (description (denote-get-link-description file)))
     (denote-link file type description id-only)))
-
-(defun denote-sequence-sort-files (files-with-sequence)
-  "Sort FILES-WITH-SEQUENCE according to their sequence."
-  (sort
-   files-with-sequence
-   (lambda (file-with-sequence-1 file-with-sequence-2)
-     (let ((s1 (denote-retrieve-filename-signature file-with-sequence-1))
-           (s2 (denote-retrieve-filename-signature file-with-sequence-2)))
-       (string<
-        (denote-sequence--pad s1 'all)
-        (denote-sequence--pad s2 'all))))))
 
 (defvar denote-sequence-history nil
   "Minibuffer history of `denote-sequence-prompt'.")
