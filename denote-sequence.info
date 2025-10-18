@@ -1,4 +1,4 @@
-This is docSZu5OR.info, produced by makeinfo version 6.8 from
+This is docePTrXT.info, produced by makeinfo version 6.8 from
 denote-sequence.texi.
 
 Copyright (C) 2022-2025 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docSZu5OR.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
+File: docePTrXT.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
 
 denote-sequence: Sequence notes or Folgezettel with Denote
 **********************************************************
@@ -44,11 +44,11 @@ customization options for the Emacs package called ‘denote’ (or
 it.
 
    The documentation furnished herein corresponds to stable version
-0.1.0, released on 2025-04-15.  Any reference to a newer feature which
+0.2.0, released on 2025-10-17.  Any reference to a newer feature which
 does not yet form part of the latest tagged commit, is explicitly marked
 as such.
 
-   Current development target is 0.2.0-dev.
+   Current development target is 0.3.0-dev.
 
    • Package name (GNU ELPA): ‘denote-sequence’
    • Official manual: <https://protesilaos.com/emacs/denote-sequence>
@@ -97,7 +97,7 @@ Indices
 
 
 
-File: docSZu5OR.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
+File: docePTrXT.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Write sequence notes or "folgezettel"
 ***************************************
@@ -147,7 +147,7 @@ manually.  The purpose of this extension is to streamline this work.
 * Show all or some sequences in a Dired buffer::
 
 
-File: docSZu5OR.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docePTrXT.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.1 Select a sequencing scheme for ‘denote-sequence-scheme’
 ===========================================================
@@ -181,7 +181,7 @@ Alphanumeric sequencing scheme
 * Convert from one sequencing scheme to another::
 
 
-File: docSZu5OR.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
+File: docePTrXT.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
 
 1.1.1 Convert from one sequencing scheme to another
 ---------------------------------------------------
@@ -206,7 +206,7 @@ THE RESULTING SEQUENCES FOR DUPLICATES (*note Re-parent a file to extend
 a given sequence::).
 
 
-File: docSZu5OR.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
+File: docePTrXT.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
 
 1.2 Create parent, child, or sibling sequence notes
 ===================================================
@@ -259,24 +259,31 @@ demand.
      behaves the same as the aforementioned
      ‘denote-sequence-new-sibling’.
 
+   Finally, to make an existing file use the Denote file-naming scheme
+and become a new parent sequence, use the command
+‘denote-sequence-rename-as-parent’.
+
 
-File: docSZu5OR.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docePTrXT.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.3 Find a relative of the current sequence
 ===========================================
 
 While reading a file with a sequence, you may want to find what its
-relatives are about.  To this end, the command ‘denote-sequence-find’
-prompts for a type among ‘parent’, ‘sibling’, ‘child’, and then asks to
-select a file among those matching the given type.  It then visits the
-file.
+relatives are.  To this end, the command ‘denote-sequence-find’ prompts
+for a type among ‘parent’, ‘sibling’, ‘child’, and then asks to select a
+file among those matching the given type.  It then visits the file.
 
    Instead of selecting a single file, the command
 ‘denote-sequence-find-dired’ puts all the matching files in a bespoke
 Dired buffer (*note Show all or some sequences in a Dired buffer::).
 
+   Finally, the commands ‘denote-sequence-find-next-sibling’ and
+‘denote-sequence-find-previous-sibling’ move between sibling files in a
+given sequence.
+
 
-File: docSZu5OR.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
+File: docePTrXT.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
 
 1.4 Link only to sequences
 ==========================
@@ -291,7 +298,7 @@ sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 “folgezettel”: Sequence notes.).
 
 
-File: docSZu5OR.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
+File: docePTrXT.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
 
 1.5 Re-parent a file to extend a given sequence
 ===============================================
@@ -304,7 +311,7 @@ a sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 “folgezettel”: Sequence notes.).
 
 
-File: docSZu5OR.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
+File: docePTrXT.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
 
 1.6 Show all or some sequences in a Dired buffer
 ================================================
@@ -333,7 +340,7 @@ prefix.
 is also available (*note Find a relative of the current sequence::).
 
 
-File: docSZu5OR.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
+File: docePTrXT.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
 
 2 Installation
 **************
@@ -344,7 +351,7 @@ File: docSZu5OR.info,  Node: Installation,  Next: Sample configuration,  Prev: S
 * Manual installation::
 
 
-File: docSZu5OR.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docePTrXT.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -363,7 +370,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docSZu5OR.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docePTrXT.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -390,7 +397,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docSZu5OR.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docePTrXT.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -420,7 +427,7 @@ File: docSZu5OR.info,  Node: Sample configuration,  Next: Acknowledgements,  Pre
 
 
 
-File: docSZu5OR.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
+File: docePTrXT.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -439,7 +446,7 @@ Ideas and/or user feedback
      Alex Carney, Mirko Hernandez.
 
 
-File: docSZu5OR.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docePTrXT.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -921,7 +928,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docSZu5OR.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docePTrXT.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 B Indices
 *********
@@ -933,7 +940,7 @@ B Indices
 * Concept index::
 
 
-File: docSZu5OR.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docePTrXT.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 B.1 Function index
 ==================
@@ -950,7 +957,11 @@ B.1 Function index
 * denote-sequence-find:                  Find a relative of the current sequence.
                                                                (line  6)
 * denote-sequence-find-dired:            Find a relative of the current sequence.
-                                                               (line 12)
+                                                               (line 11)
+* denote-sequence-find-next-sibling:     Find a relative of the current sequence.
+                                                               (line 15)
+* denote-sequence-find-previous-sibling: Find a relative of the current sequence.
+                                                               (line 15)
 * denote-sequence-link:                  Link only to sequences.
                                                                (line  6)
 * denote-sequence-new-child:             Create parent child or sibling sequence notes.
@@ -963,11 +974,13 @@ B.1 Function index
                                                                (line 43)
 * denote-sequence-new-sibling-of-current: Create parent child or sibling sequence notes.
                                                                (line 48)
+* denote-sequence-rename-as-parent:      Create parent child or sibling sequence notes.
+                                                               (line 54)
 * denote-sequence-reparent:              Re-parent a file to extend a given sequence.
                                                                (line  6)
 
 
-File: docSZu5OR.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docePTrXT.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 B.2 Variable index
 ==================
@@ -979,7 +992,7 @@ B.2 Variable index
                                                                 (line 6)
 
 
-File: docSZu5OR.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docePTrXT.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 B.3 Concept index
 =================
@@ -999,20 +1012,20 @@ Node: Sequence notes3384
 Node: Select a sequencing scheme for denote-sequence-scheme5964
 Node: Convert from one sequencing scheme to another7652
 Node: Create parent child or sibling sequence notes8794
-Node: Find a relative of the current sequence11348
-Node: Link only to sequences12114
-Node: Re-parent a file to extend a given sequence12887
-Node: Show all or some sequences in a Dired buffer13570
-Node: Installation14999
-Node: GNU ELPA package15192
-Node: Manual installation15762
-Node: Sample configuration16567
-Node: Acknowledgements17672
-Node: GNU Free Documentation License18155
-Node: Indices43516
-Node: Function index43692
-Node: Variable index45732
-Node: Concept index46068
+Node: Find a relative of the current sequence11510
+Node: Link only to sequences12432
+Node: Re-parent a file to extend a given sequence13205
+Node: Show all or some sequences in a Dired buffer13888
+Node: Installation15317
+Node: GNU ELPA package15510
+Node: Manual installation16080
+Node: Sample configuration16885
+Node: Acknowledgements17990
+Node: GNU Free Documentation License18473
+Node: Indices43834
+Node: Function index44010
+Node: Variable index46521
+Node: Concept index46857
 
 End Tag Table
 
