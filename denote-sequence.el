@@ -53,9 +53,6 @@
 
 ;;; Code:
 
-;; TODO 2025-01-08: Test whether the built-in hierarchy.el can be used
-;; to present the sequences in a nice way.  What do we need and how
-;; exactly do we use that library.
 (require 'denote)
 
 (defgroup denote-sequence ()
@@ -499,7 +496,7 @@ With optional FILES, operate on them, else use the return value of
                        (components (denote-sequence-split sequence))
                        ((>= depth (length components))))
              file))
-         (denote-sequence-get-all-files files))))
+       (or files (denote-sequence-get-all-files)))))
 
 (defun denote-sequence-get-all-sequences (&optional files)
   "Return all sequences in `denote-directory-files'.
@@ -1084,6 +1081,20 @@ Use optional PREFIX and DEPTH to format the string accordingly."
      (t
       (format "*Denote sequences, %s*" time)))))
 
+(defun denote-sequence--get-interactive-for-prefix-and-depth ()
+  "Return interactive list of arguments for `denote-sequence-dired' and related."
+  (let ((arg (prefix-numeric-value current-prefix-arg)))
+     (cond
+      ((= arg 16)
+       (list
+        (denote-sequence-prompt "Limit to files that extend SEQUENCE (empty for all)")
+        (denote-sequence-depth-prompt)))
+      ((= arg 4)
+       (list
+        (denote-sequence-prompt "Limit to files that extend SEQUENCE (empty for all)")))
+      (t
+       nil))))
+
 ;;;###autoload
 (defun denote-sequence-dired (&optional prefix depth)
   "Produce a Dired listing of all sequence notes.
@@ -1095,18 +1106,7 @@ With optional DEPTH as a number, limit the list to files whose sequence
 is that many levels deep.  For example, 1=1=2 is three levels deep.
 
 For a more specialised case, see `denote-sequence-find-relatives-dired'."
-  (interactive
-   (let ((arg (prefix-numeric-value current-prefix-arg)))
-     (cond
-      ((= arg 16)
-       (list
-        (denote-sequence-prompt "Limit to files that extend SEQUENCE (empty for all)")
-        (denote-sequence-depth-prompt)))
-      ((= arg 4)
-       (list
-        (denote-sequence-prompt "Limit to files that extend SEQUENCE (empty for all)")))
-      (t
-       nil))))
+  (interactive (denote-sequence--get-interactive-for-prefix-and-depth))
   (pcase-let* ((relative-p (denote-has-single-denote-directory-p))
                (files-fn `(lambda ()
                             (let* ((files (if (and prefix (not (string-blank-p prefix)))
@@ -1238,6 +1238,172 @@ CHECK THE RESULTING SEQUENCES FOR DUPLICATES."
                 (new-sequence (denote-sequence-make-conversion old-sequence :is-complete-sequence)))
       (denote-rename-file file 'keep-current 'keep-current new-sequence 'keep-current 'keep-current)))
   (denote-update-dired-buffers))
+
+;;;; Display a hierarchy
+
+(defgroup denote-sequence-hierarchy ()
+  "Hierarchy view of Denote sequences."
+  :group 'denote
+  :group 'denote-sequence
+  :link '(info-link "(denote) top")
+  :link '(info-link "(denote-sequence) top")
+  :link '(url-link :tag "Denote homepage" "https://protesilaos.com/emacs/denote")
+  :link '(url-link :tag "Denote Sequence homepage" "https://protesilaos.com/emacs/denote-sequence"))
+
+(defcustom denote-sequence-hierarchy-indentation 2
+  "Number of spaces to indent each level of depth in `denote-sequence-view-hierarchy'."
+  :type 'natnum
+  :package-version '(denote . "0.3.0")
+  :group 'denote-sequence-hierarchy)
+
+(defun denote-sequence--hierarchy-insert (file)
+  "Insert FILE in the hierarchy with indentation matching the sequence depth."
+  (condition-case data
+      (let* ((title (denote-retrieve-title-or-filename file (denote-filetype-heuristics file)))
+             (keywords (denote-retrieve-filename-keywords file))
+             (sequence (denote-retrieve-filename-signature file))
+             (depth (denote-sequence-depth sequence))
+             (indent (if (eq depth 1)
+                         ""
+                       (make-string (* (- depth 1) denote-sequence-hierarchy-indentation) ? )))
+             (beginning (point))
+             (inhibit-read-only t))
+        (insert
+         (propertize
+          ;; FIXME 2025-11-19: Adjust this to account only for
+          ;; elements that are present.  Only the sequence is
+          ;; mandatory in this regard.
+          (format "%s%s %s _%s"
+                  (propertize indent
+                              'cursor-sensor-functions
+                              (list
+                               (lambda (&rest _)
+                                 (re-search-forward "[[:alnum:]]" nil t)
+                                 (forward-char -1))))
+                  (propertize sequence 'denote-sequence-hierarchy-sequence-text t)
+                  (propertize title 'denote-sequence-hierarchy-title-text t)
+                  (propertize keywords 'denote-sequence-hierarchy-keywords-text t))
+          'denote-sequence-hierarchy-level depth
+          'denote-sequence-hierarchy-file file))
+        (insert "\n"))
+    (error (message "Failed label-button-fn with data: %s" data))))
+
+(defun denote-sequence-hierarchy-get-level ()
+  "Return the outline level at point."
+  (if-let* ((level (get-text-property (point) 'denote-sequence-hierarchy-level)))
+      level
+    (user-error "No outline level found at position `%s'" position)))
+
+(defun denote-sequence-hierarchy-find-file (position)
+  "Find the file at POSITION in `denote-sequence-view-hierarchy' buffer.
+When called interactively POSITION is the current `point'."
+  (interactive (list (point)))
+  (if-let* ((file (get-text-property position 'denote-sequence-hierarchy-file)))
+      (funcall denote-open-link-function file)
+    (user-error "No file found at position `%s'" position)))
+
+(defun denote-sequence--hierarchy-get-buffer (prefix depth)
+  "Return buffer for `denote-sequence-view-hierarchy'.
+PREFIX and DEPTH are used to derive the name of the buffer as well as to
+set the `revert-buffer-function'."
+  (let* ((name (format-message "*denote-sequence-hierarchy with prefix `%s'; depth `%s'*" (or prefix "ALL") (or depth "ALL")))
+         (buffer (get-buffer-create name))
+         (inhibit-read-only t))
+    (with-current-buffer buffer
+      (erase-buffer)
+      (setq-local revert-buffer-function
+                  (lambda (_ignore-auto _no-confirm)
+                    (denote-sequence-view-hierarchy prefix depth))))
+    buffer))
+
+;; TODO 2025-11-19: Review which keybindings we need to cover the
+;; basic use-case.  I do not want to have a million options here.
+(defvar denote-sequence-hierarchy-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "RET") #'denote-sequence-hierarchy-find-file)
+    (define-key map (kbd "TAB") #'outline-cycle)
+    (define-key map (kbd "S-TAB") #'outline-cycle-buffer)
+    (define-key map (kbd "<backtab>") #'outline-cycle-buffer)
+    (define-key map (kbd "g") #'revert-buffer)
+    (define-key map (kbd "f") #'outline-forward-same-level)
+    (define-key map (kbd "b") #'outline-backward-same-level)
+    (define-key map (kbd "n") #'outline-next-visible-heading)
+    (define-key map (kbd "p") #'outline-previous-visible-heading)
+    map)
+  "Key map for `denote-sequence-hierarchy-mode'.")
+
+(defun denote-sequence--hierarchy-face-matcher-subr (property)
+  "Search forward for PROPERTY and return match data."
+  (when-let* ((properties (text-property-search-forward property))
+              (beginning (prop-match-beginning properties))
+              (end (prop-match-end properties)) )
+    (set-match-data (list beginning end))
+    (point)))
+
+(defun denote-sequence--hierarchy-face-matcher-sequence (limit)
+  "Font lock matcher for sequences using LIMIT."
+  (denote-sequence--hierarchy-face-matcher-subr 'denote-sequence-hierarchy-sequence-text))
+
+(defun denote-sequence--hierarchy-face-matcher-title (limit)
+  "Font lock matcher for titles using LIMIT."
+  (denote-sequence--hierarchy-face-matcher-subr 'denote-sequence-hierarchy-title-text))
+
+(defun denote-sequence--hierarchy-face-matcher-keywords (limit)
+  "Font lock matcher for keywords using LIMIT."
+  (denote-sequence--hierarchy-face-matcher-subr 'denote-sequence-hierarchy-keywords-text))
+
+(defvar denote-sequence-hierarchy-font-lock-keywords
+  '((denote-sequence--hierarchy-face-matcher-sequence
+     (0 'denote-faces-signature))
+    (denote-sequence--hierarchy-face-matcher-title
+     (0 'denote-faces-title))
+    (denote-sequence--hierarchy-face-matcher-keywords
+     (0 'denote-faces-keywords)))
+  "Font lock keywords for `denote-sequence-hierarchy-mode'.")
+
+(define-derived-mode denote-sequence-hierarchy-mode text-mode "Denote Hierarchy"
+  "Major mode for `denote-sequence-view-hierarchy' buffers."
+  :interactive nil
+  (setq-local font-lock-defaults '(denote-sequence-hierarchy-font-lock-keywords))
+  (setq-local outline-regexp "[\s[:alnum:]]+")
+  (setq-local outline-level #'denote-sequence-hierarchy-get-level)
+  (setq-local outline-minor-mode-highlight 'append)
+  (setq-local outline-minor-mode-cycle t)
+  (setq-local outline-minor-mode-use-buttons nil)
+  (setq-local buffer-read-only t)
+  (cursor-sensor-mode 1)
+  (outline-minor-mode 1))
+
+;;;###autoload
+(defun denote-sequence-view-hierarchy (&optional prefix depth)
+  "Show a hierachy of sequences.
+With optional PREFIX string, show only files whose sequence matches it.
+When called interactively, prompt for PREFIX, which is a file whose
+sequence is used.
+
+With optional DEPTH as a number, limit the list to files whose sequence
+is that many levels deep.  For example, 1=1=2 is three levels deep.
+When called interactively, prompt for the depth.
+
+In interactive use, PREFIX is the single universal argument, while DEPTH
+is the double universal argument.  In this case, PREFIX can be an empty
+string, which means to not use a prefix as a restriction."
+  (interactive (denote-sequence--get-interactive-for-prefix-and-depth))
+  (if-let* ((files-with-prefix (if (and prefix (not (string-blank-p prefix)))
+                                   (denote-sequence-get-all-files-with-prefix prefix)
+                                 (denote-sequence-get-all-files)))
+            (files (if depth
+                       (denote-sequence-get-all-files-with-max-depth depth files-with-prefix)
+                     files-with-prefix)))
+      (let* ((buffer (denote-sequence--hierarchy-get-buffer prefix depth))
+             (sorted (denote-sequence-sort-files files)))
+        (with-current-buffer buffer
+          (dolist (file sorted)
+            (denote-sequence--hierarchy-insert file))
+          (goto-char (point-min))
+          (denote-sequence-hierarchy-mode))
+        (display-buffer buffer))
+    (user-error "No sequences found")))
 
 (provide 'denote-sequence)
 ;;; denote-sequence.el ends here
