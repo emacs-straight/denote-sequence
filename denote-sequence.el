@@ -1256,6 +1256,23 @@ CHECK THE RESULTING SEQUENCES FOR DUPLICATES."
   :package-version '(denote . "0.3.0")
   :group 'denote-sequence-hierarchy)
 
+(defun denote-sequence--format-hierarchy-entry (indent sequence title keywords)
+  "Format hierarchy entry to include INDENT, SEQUENCE, TITLE, and KEYWORDS."
+  (let* ((indent (propertize indent
+                             'cursor-sensor-functions
+                             (list
+                              (lambda (&rest _)
+                                (re-search-forward "[[:alnum:]]" nil t)
+                                (forward-char -1)))))
+         (sequence (propertize sequence 'denote-sequence-hierarchy-sequence-text t))
+         (entry (format "%s%s" indent sequence))
+         (append-fn (lambda (new prefix property)
+                      (when (and new (not (string-blank-p new)))
+                        (setq entry (format "%s %s%s" entry prefix (propertize new property t)))))))
+    (funcall append-fn title "" 'denote-sequence-hierarchy-title-text)
+    (funcall append-fn keywords "_" 'denote-sequence-hierarchy-keywords-text)
+    entry))
+
 (defun denote-sequence--hierarchy-insert (file)
   "Insert FILE in the hierarchy with indentation matching the sequence depth."
   (condition-case data
@@ -1267,32 +1284,18 @@ CHECK THE RESULTING SEQUENCES FOR DUPLICATES."
                          ""
                        (make-string (* (- depth 1) denote-sequence-hierarchy-indentation) ? )))
              (beginning (point))
-             (inhibit-read-only t))
-        (insert
-         (propertize
-          ;; FIXME 2025-11-19: Adjust this to account only for
-          ;; elements that are present.  Only the sequence is
-          ;; mandatory in this regard.
-          (format "%s%s %s _%s"
-                  (propertize indent
-                              'cursor-sensor-functions
-                              (list
-                               (lambda (&rest _)
-                                 (re-search-forward "[[:alnum:]]" nil t)
-                                 (forward-char -1))))
-                  (propertize sequence 'denote-sequence-hierarchy-sequence-text t)
-                  (propertize title 'denote-sequence-hierarchy-title-text t)
-                  (propertize keywords 'denote-sequence-hierarchy-keywords-text t))
-          'denote-sequence-hierarchy-level depth
-          'denote-sequence-hierarchy-file file))
+             (inhibit-read-only t)
+             (entry (denote-sequence--format-hierarchy-entry indent sequence title keywords)))
+        (insert (propertize entry
+                            'denote-sequence-hierarchy-level depth
+                            'denote-sequence-hierarchy-file file))
         (insert "\n"))
-    (error (message "Failed label-button-fn with data: %s" data))))
+    (error (message "Failed `denote-sequence--hierarchy-insert' with data: %s" data))))
 
 (defun denote-sequence-hierarchy-get-level ()
   "Return the outline level at point."
-  (if-let* ((level (get-text-property (point) 'denote-sequence-hierarchy-level)))
-      level
-    (user-error "No outline level found at position `%s'" position)))
+  (or (get-text-property (point) 'denote-sequence-hierarchy-level)
+      (user-error "No outline level found at position `%s'" position)))
 
 (defun denote-sequence-hierarchy-find-file (position)
   "Find the file at POSITION in `denote-sequence-view-hierarchy' buffer.

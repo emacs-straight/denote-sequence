@@ -68,7 +68,7 @@ Table of Contents
         copy and modify this GNU manual.”
 
 
-2 Write sequence notes or "folgezettel"
+2 Write sequence notes or “folgezettel”
 ═══════════════════════════════════════
 
   The `denote-sequence' package provides an optional extension to
@@ -316,9 +316,6 @@ Table of Contents
 
 3 Installation
 ══════════════
-
-
-
 
 3.1 GNU ELPA package
 ────────────────────

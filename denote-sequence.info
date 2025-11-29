@@ -1,4 +1,4 @@
-This is doc8UP9qv.info, produced by makeinfo version 6.8 from
+This is docYDsSK7.info, produced by makeinfo version 7.1.1 from
 denote-sequence.texi.
 
 Copyright (C) 2022-2025 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: doc8UP9qv.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
+File: docYDsSK7.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
 
 denote-sequence: Sequence notes or Folgezettel with Denote
 **********************************************************
@@ -69,7 +69,7 @@ of it.
 * GNU Free Documentation License::
 * Indices::
 
-— The Detailed Node Listing —
+-- The Detailed Node Listing --
 
 Sequence notes
 
@@ -97,7 +97,7 @@ Indices
 
 
 
-File: doc8UP9qv.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
+File: docYDsSK7.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Write sequence notes or "folgezettel"
 ***************************************
@@ -147,7 +147,7 @@ manually.  The purpose of this extension is to streamline this work.
 * Show all or some sequences in a Dired buffer::
 
 
-File: doc8UP9qv.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.1 Select a sequencing scheme for ‘denote-sequence-scheme’
 ===========================================================
@@ -181,7 +181,7 @@ Alphanumeric sequencing scheme
 * Convert from one sequencing scheme to another::
 
 
-File: doc8UP9qv.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
+File: docYDsSK7.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
 
 1.1.1 Convert from one sequencing scheme to another
 ---------------------------------------------------
@@ -206,7 +206,7 @@ THE RESULTING SEQUENCES FOR DUPLICATES (*note Re-parent a file to extend
 a given sequence::).
 
 
-File: doc8UP9qv.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
 
 1.2 Create parent, child, or sibling sequence notes
 ===================================================
@@ -218,7 +218,7 @@ denote-sequence-scheme::).  ]
 
    A new sequence note can be of the type ‘parent’, ‘child’, and
 ‘sibling’.  For the convenience of the user, we provide commands to
-create such “sequence notes”, link only between them (as opposed to a
+create such "sequence notes", link only between them (as opposed to a
 link to any other file with the Denote file-naming scheme (read the
 Denote manual about link-related commands)), and re-parent them on
 demand.
@@ -244,7 +244,7 @@ demand.
      minibuffer completion.
 
 ‘denote-sequence-new-child-of-current’
-     This will create a new child of the current file’s sequence.  If
+     This will create a new child of the current file's sequence.  If
      the current file does not have such a sequence, then the command
      behaves the same as the aforementioned ‘denote-sequence-new-child’.
 
@@ -254,7 +254,7 @@ demand.
      minibuffer completion.
 
 ‘denote-sequence-new-sibling-of-current’
-     This will create a new sibling of the current file’s sequence.  If
+     This will create a new sibling of the current file's sequence.  If
      the current file does not have such a sequence, then the command
      behaves the same as the aforementioned
      ‘denote-sequence-new-sibling’.
@@ -264,7 +264,7 @@ and become a new parent sequence, use the command
 ‘denote-sequence-rename-as-parent’.
 
 
-File: doc8UP9qv.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.3 Find a relative of the current sequence
 ===========================================
@@ -283,7 +283,7 @@ Dired buffer (*note Show all or some sequences in a Dired buffer::).
 given sequence.
 
 
-File: doc8UP9qv.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
 
 1.4 Link only to sequences
 ==========================
@@ -295,10 +295,10 @@ Consider it a convenience to link to sequence notes more quickly.  It is
 by no means necessary though, as the regular linking commands will work
 as expected with any Denote file, including those which contain a
 sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
-“folgezettel”: Sequence notes.).
+"folgezettel": Sequence notes.).
 
 
-File: doc8UP9qv.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
 
 1.5 Re-parent a file to extend a given sequence
 ===============================================
@@ -308,10 +308,10 @@ for the file-at-point in Dired to make that file a child of a given
 sequence.  It does so by prompting for the target file using minibuffer
 completion.  Files available at this prompt are only those which contain
 a sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
-“folgezettel”: Sequence notes.).
+"folgezettel": Sequence notes.).
 
 
-File: doc8UP9qv.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
+File: docYDsSK7.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
 
 1.6 Show all or some sequences in a Dired buffer
 ================================================
@@ -331,7 +331,7 @@ with ‘1=1’, like ‘1=1=1’ and ‘1=1=2’ but not ‘1=2’).
 
    With an optional double prefix argument of ‘C-u C-u’, this command
 will prompt for the prefix as well as the level of depth to limit the
-results to.  Here “depth” means how deep to go in a sequence where, for
+results to.  Here "depth" means how deep to go in a sequence where, for
 example, ‘1=1=2’ is three levels of depth.  It is possible to use an
 empty string at the prefix prompt to not limit the results to any
 prefix.
@@ -340,7 +340,7 @@ prefix.
 is also available (*note Find a relative of the current sequence::).
 
 
-File: doc8UP9qv.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
+File: docYDsSK7.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
 
 2 Installation
 **************
@@ -351,7 +351,7 @@ File: doc8UP9qv.info,  Node: Installation,  Next: Sample configuration,  Prev: S
 * Manual installation::
 
 
-File: doc8UP9qv.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docYDsSK7.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -370,7 +370,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: doc8UP9qv.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docYDsSK7.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -397,7 +397,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: doc8UP9qv.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docYDsSK7.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -427,7 +427,7 @@ File: doc8UP9qv.info,  Node: Sample configuration,  Next: Acknowledgements,  Pre
 
 
 
-File: doc8UP9qv.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
+File: docYDsSK7.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -446,7 +446,7 @@ Ideas and/or user feedback
      Alex Carney, Mirko Hernandez.
 
 
-File: doc8UP9qv.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docYDsSK7.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -469,7 +469,7 @@ Appendix A GNU Free Documentation License
      author and publisher a way to get credit for their work, while not
      being considered responsible for modifications made by others.
 
-     This License is a kind of “copyleft”, which means that derivative
+     This License is a kind of "copyleft", which means that derivative
      works of the document must themselves be free in the same sense.
      It complements the GNU General Public License, which is a copyleft
      license designed for free software.
@@ -490,18 +490,18 @@ Appendix A GNU Free Documentation License
      be distributed under the terms of this License.  Such a notice
      grants a world-wide, royalty-free license, unlimited in duration,
      to use that work under the conditions stated herein.  The
-     “Document”, below, refers to any such manual or work.  Any member
-     of the public is a licensee, and is addressed as “you”.  You accept
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You accept
      the license if you copy, modify or distribute the work in a way
      requiring permission under copyright law.
 
-     A “Modified Version” of the Document means any work containing the
+     A "Modified Version" of the Document means any work containing the
      Document or a portion of it, either copied verbatim, or with
      modifications and/or translated into another language.
 
-     A “Secondary Section” is a named appendix or a front-matter section
+     A "Secondary Section" is a named appendix or a front-matter section
      of the Document that deals exclusively with the relationship of the
-     publishers or authors of the Document to the Document’s overall
+     publishers or authors of the Document to the Document's overall
      subject (or to related matters) and contains nothing that could
      fall directly within that overall subject.  (Thus, if the Document
      is in part a textbook of mathematics, a Secondary Section may not
@@ -510,7 +510,7 @@ Appendix A GNU Free Documentation License
      of legal, commercial, philosophical, ethical or political position
      regarding them.
 
-     The “Invariant Sections” are certain Secondary Sections whose
+     The "Invariant Sections" are certain Secondary Sections whose
      titles are designated, as being those of Invariant Sections, in the
      notice that says that the Document is released under this License.
      If a section does not fit the above definition of Secondary then it
@@ -518,13 +518,13 @@ Appendix A GNU Free Documentation License
      contain zero Invariant Sections.  If the Document does not identify
      any Invariant Sections then there are none.
 
-     The “Cover Texts” are certain short passages of text that are
+     The "Cover Texts" are certain short passages of text that are
      listed, as Front-Cover Texts or Back-Cover Texts, in the notice
      that says that the Document is released under this License.  A
      Front-Cover Text may be at most 5 words, and a Back-Cover Text may
      be at most 25 words.
 
-     A “Transparent” copy of the Document means a machine-readable copy,
+     A "Transparent" copy of the Document means a machine-readable copy,
      represented in a format whose specification is available to the
      general public, that is suitable for revising the document
      straightforwardly with generic text editors or (for images composed
@@ -536,7 +536,7 @@ Appendix A GNU Free Documentation License
      been arranged to thwart or discourage subsequent modification by
      readers is not Transparent.  An image format is not Transparent if
      used for any substantial amount of text.  A copy that is not
-     “Transparent” is called “Opaque”.
+     "Transparent" is called "Opaque".
 
      Examples of suitable formats for Transparent copies include plain
      ASCII without markup, Texinfo input format, LaTeX input format,
@@ -549,23 +549,23 @@ Appendix A GNU Free Documentation License
      the machine-generated HTML, PostScript or PDF produced by some word
      processors for output purposes only.
 
-     The “Title Page” means, for a printed book, the title page itself,
+     The "Title Page" means, for a printed book, the title page itself,
      plus such following pages as are needed to hold, legibly, the
      material this License requires to appear in the title page.  For
-     works in formats which do not have any title page as such, “Title
-     Page” means the text near the most prominent appearance of the
-     work’s title, preceding the beginning of the body of the text.
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
 
-     The “publisher” means any person or entity that distributes copies
+     The "publisher" means any person or entity that distributes copies
      of the Document to the public.
 
-     A section “Entitled XYZ” means a named subunit of the Document
+     A section "Entitled XYZ" means a named subunit of the Document
      whose title either is precisely XYZ or contains XYZ in parentheses
      following text that translates XYZ in another language.  (Here XYZ
      stands for a specific section name mentioned below, such as
-     “Acknowledgements”, “Dedications”, “Endorsements”, or “History”.)
-     To “Preserve the Title” of such a section when you modify the
-     Document means that it remains a section “Entitled XYZ” according
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
      to this definition.
 
      The Document may include Warranty Disclaimers next to the notice
@@ -595,7 +595,7 @@ Appendix A GNU Free Documentation License
 
      If you publish printed copies (or copies in media that commonly
      have printed covers) of the Document, numbering more than 100, and
-     the Document’s license notice requires Cover Texts, you must
+     the Document's license notice requires Cover Texts, you must
      enclose the copies in covers that carry, clearly and legibly, all
      these Cover Texts: Front-Cover Texts on the front cover, and
      Back-Cover Texts on the back cover.  Both covers must also clearly
@@ -667,15 +667,15 @@ Appendix A GNU Free Documentation License
           the Addendum below.
 
        G. Preserve in that license notice the full lists of Invariant
-          Sections and required Cover Texts given in the Document’s
+          Sections and required Cover Texts given in the Document's
           license notice.
 
        H. Include an unaltered copy of this License.
 
-       I. Preserve the section Entitled “History”, Preserve its Title,
+       I. Preserve the section Entitled "History", Preserve its Title,
           and add to it an item stating at least the title, year, new
           authors, and publisher of the Modified Version as given on the
-          Title Page.  If there is no section Entitled “History” in the
+          Title Page.  If there is no section Entitled "History" in the
           Document, create one stating the title, year, authors, and
           publisher of the Document as given on its Title Page, then add
           an item describing the Modified Version as stated in the
@@ -685,12 +685,12 @@ Appendix A GNU Free Documentation License
           for public access to a Transparent copy of the Document, and
           likewise the network locations given in the Document for
           previous versions it was based on.  These may be placed in the
-          “History” section.  You may omit a network location for a work
+          "History" section.  You may omit a network location for a work
           that was published at least four years before the Document
           itself, or if the original publisher of the version it refers
           to gives permission.
 
-       K. For any section Entitled “Acknowledgements” or “Dedications”,
+       K. For any section Entitled "Acknowledgements" or "Dedications",
           Preserve the Title of the section, and preserve in the section
           all the substance and tone of each of the contributor
           acknowledgements and/or dedications given therein.
@@ -699,11 +699,11 @@ Appendix A GNU Free Documentation License
           in their text and in their titles.  Section numbers or the
           equivalent are not considered part of the section titles.
 
-       M. Delete any section Entitled “Endorsements”.  Such a section
+       M. Delete any section Entitled "Endorsements".  Such a section
           may not be included in the Modified Version.
 
        N. Do not retitle any existing section to be Entitled
-          “Endorsements” or to conflict in title with any Invariant
+          "Endorsements" or to conflict in title with any Invariant
           Section.
 
        O. Preserve any Warranty Disclaimers.
@@ -712,15 +712,15 @@ Appendix A GNU Free Documentation License
      appendices that qualify as Secondary Sections and contain no
      material copied from the Document, you may at your option designate
      some or all of these sections as invariant.  To do this, add their
-     titles to the list of Invariant Sections in the Modified Version’s
+     titles to the list of Invariant Sections in the Modified Version's
      license notice.  These titles must be distinct from any other
      section titles.
 
-     You may add a section Entitled “Endorsements”, provided it contains
+     You may add a section Entitled "Endorsements", provided it contains
      nothing but endorsements of your Modified Version by various
-     parties—for example, statements of peer review or that the text has
-     been approved by an organization as the authoritative definition of
-     a standard.
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
 
      You may add a passage of up to five words as a Front-Cover Text,
      and a passage of up to 25 words as a Back-Cover Text, to the end of
@@ -758,10 +758,10 @@ Appendix A GNU Free Documentation License
      combined work.
 
      In the combination, you must combine any sections Entitled
-     “History” in the various original documents, forming one section
-     Entitled “History”; likewise combine any sections Entitled
-     “Acknowledgements”, and any sections Entitled “Dedications”.  You
-     must delete all sections Entitled “Endorsements.”
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
 
   6. COLLECTIONS OF DOCUMENTS
 
@@ -782,16 +782,16 @@ Appendix A GNU Free Documentation License
 
      A compilation of the Document or its derivatives with other
      separate and independent documents or works, in or on a volume of a
-     storage or distribution medium, is called an “aggregate” if the
+     storage or distribution medium, is called an "aggregate" if the
      copyright resulting from the compilation is not used to limit the
-     legal rights of the compilation’s users beyond what the individual
+     legal rights of the compilation's users beyond what the individual
      works permit.  When the Document is included in an aggregate, this
      License does not apply to the other works in the aggregate which
      are not themselves derivative works of the Document.
 
      If the Cover Text requirement of section 3 is applicable to these
      copies of the Document, then if the Document is less than one half
-     of the entire aggregate, the Document’s Cover Texts may be placed
+     of the entire aggregate, the Document's Cover Texts may be placed
      on covers that bracket the Document within the aggregate, or the
      electronic equivalent of covers if the Document is in electronic
      form.  Otherwise they must appear on printed covers that bracket
@@ -813,8 +813,8 @@ Appendix A GNU Free Documentation License
      this License or a notice or disclaimer, the original version will
      prevail.
 
-     If a section in the Document is Entitled “Acknowledgements”,
-     “Dedications”, or “History”, the requirement (section 4) to
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
      Preserve its Title (section 1) will typically require changing the
      actual title.
 
@@ -855,7 +855,7 @@ Appendix A GNU Free Documentation License
 
      Each version of the License is given a distinguishing version
      number.  If the Document specifies that a particular numbered
-     version of this License “or any later version” applies to it, you
+     version of this License "or any later version" applies to it, you
      have the option of following the terms and conditions either of
      that specified version or of any later version that has been
      published (not as a draft) by the Free Software Foundation.  If the
@@ -863,29 +863,29 @@ Appendix A GNU Free Documentation License
      choose any version ever published (not as a draft) by the Free
      Software Foundation.  If the Document specifies that a proxy can
      decide which future versions of this License can be used, that
-     proxy’s public statement of acceptance of a version permanently
+     proxy's public statement of acceptance of a version permanently
      authorizes you to choose that version for the Document.
 
   11. RELICENSING
 
-     “Massive Multiauthor Collaboration Site” (or “MMC Site”) means any
+     "Massive Multiauthor Collaboration Site" (or "MMC Site") means any
      World Wide Web server that publishes copyrightable works and also
      provides prominent facilities for anybody to edit those works.  A
      public wiki that anybody can edit is an example of such a server.
-     A “Massive Multiauthor Collaboration” (or “MMC”) contained in the
+     A "Massive Multiauthor Collaboration" (or "MMC") contained in the
      site means any set of copyrightable works thus published on the MMC
      site.
 
-     “CC-BY-SA” means the Creative Commons Attribution-Share Alike 3.0
+     "CC-BY-SA" means the Creative Commons Attribution-Share Alike 3.0
      license published by Creative Commons Corporation, a not-for-profit
      corporation with a principal place of business in San Francisco,
      California, as well as future copyleft versions of that license
      published by that same organization.
 
-     “Incorporate” means to publish or republish a Document, in whole or
+     "Incorporate" means to publish or republish a Document, in whole or
      in part, as part of another Document.
 
-     An MMC is “eligible for relicensing” if it is licensed under this
+     An MMC is "eligible for relicensing" if it is licensed under this
      License, and if all works that were first published under this
      License somewhere other than this MMC, and subsequently
      incorporated in whole or in part into the MMC, (1) had no cover
@@ -912,7 +912,7 @@ notices just after the title page:
        Free Documentation License''.
 
    If you have Invariant Sections, Front-Cover Texts and Back-Cover
-Texts, replace the “with...Texts.” line with this:
+Texts, replace the "with...Texts." line with this:
 
          with the Invariant Sections being LIST THEIR TITLES, with
          the Front-Cover Texts being LIST, and with the Back-Cover Texts
@@ -928,7 +928,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: doc8UP9qv.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docYDsSK7.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 B Indices
 *********
@@ -940,7 +940,7 @@ B Indices
 * Concept index::
 
 
-File: doc8UP9qv.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docYDsSK7.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 B.1 Function index
 ==================
@@ -980,7 +980,7 @@ B.1 Function index
                                                                (line  6)
 
 
-File: doc8UP9qv.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docYDsSK7.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 B.2 Variable index
 ==================
@@ -992,7 +992,7 @@ B.2 Variable index
                                                                 (line 6)
 
 
-File: doc8UP9qv.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docYDsSK7.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 B.3 Concept index
 =================
@@ -1007,25 +1007,25 @@ B.3 Concept index
 
 
 Tag Table:
-Node: Top872
+Node: Top874
 Node: Sequence notes3384
 Node: Select a sequencing scheme for denote-sequence-scheme5964
 Node: Convert from one sequencing scheme to another7652
 Node: Create parent child or sibling sequence notes8794
-Node: Find a relative of the current sequence11510
-Node: Link only to sequences12432
-Node: Re-parent a file to extend a given sequence13205
-Node: Show all or some sequences in a Dired buffer13888
-Node: Installation15317
-Node: GNU ELPA package15510
-Node: Manual installation16080
-Node: Sample configuration16885
-Node: Acknowledgements17990
-Node: GNU Free Documentation License18473
-Node: Indices43834
-Node: Function index44010
-Node: Variable index46521
-Node: Concept index46857
+Node: Find a relative of the current sequence11502
+Node: Link only to sequences12424
+Node: Re-parent a file to extend a given sequence13193
+Node: Show all or some sequences in a Dired buffer13872
+Node: Installation15297
+Node: GNU ELPA package15490
+Node: Manual installation16060
+Node: Sample configuration16865
+Node: Acknowledgements17970
+Node: GNU Free Documentation License18453
+Node: Indices43613
+Node: Function index43789
+Node: Variable index46300
+Node: Concept index46636
 
 End Tag Table
 
