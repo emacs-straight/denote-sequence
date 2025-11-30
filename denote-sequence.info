@@ -1,4 +1,4 @@
-This is docYDsSK7.info, produced by makeinfo version 7.1.1 from
+This is docWvKm4m.info, produced by makeinfo version 7.1.1 from
 denote-sequence.texi.
 
 Copyright (C) 2022-2025 Free Software Foundation, Inc.
@@ -20,7 +20,7 @@ START-INFO-DIR-ENTRY
 END-INFO-DIR-ENTRY
 
 
-File: docYDsSK7.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
+File: docWvKm4m.info,  Node: Top,  Next: Sequence notes,  Up: (dir)
 
 denote-sequence: Sequence notes or Folgezettel with Denote
 **********************************************************
@@ -97,7 +97,7 @@ Indices
 
 
 
-File: docYDsSK7.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
+File: docWvKm4m.info,  Node: Sequence notes,  Next: Installation,  Prev: Top,  Up: Top
 
 1 Write sequence notes or "folgezettel"
 ***************************************
@@ -147,7 +147,7 @@ manually.  The purpose of this extension is to streamline this work.
 * Show all or some sequences in a Dired buffer::
 
 
-File: docYDsSK7.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.1 Select a sequencing scheme for ‘denote-sequence-scheme’
 ===========================================================
@@ -181,7 +181,7 @@ Alphanumeric sequencing scheme
 * Convert from one sequencing scheme to another::
 
 
-File: docYDsSK7.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
+File: docWvKm4m.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
 
 1.1.1 Convert from one sequencing scheme to another
 ---------------------------------------------------
@@ -206,7 +206,7 @@ THE RESULTING SEQUENCES FOR DUPLICATES (*note Re-parent a file to extend
 a given sequence::).
 
 
-File: docYDsSK7.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
 
 1.2 Create parent, child, or sibling sequence notes
 ===================================================
@@ -264,7 +264,7 @@ and become a new parent sequence, use the command
 ‘denote-sequence-rename-as-parent’.
 
 
-File: docYDsSK7.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Find a relative of the current sequence,  Next: Link only to sequences,  Prev: Create parent child or sibling sequence notes,  Up: Sequence notes
 
 1.3 Find a relative of the current sequence
 ===========================================
@@ -283,7 +283,7 @@ Dired buffer (*note Show all or some sequences in a Dired buffer::).
 given sequence.
 
 
-File: docYDsSK7.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Link only to sequences,  Next: Re-parent a file to extend a given sequence,  Prev: Find a relative of the current sequence,  Up: Sequence notes
 
 1.4 Link only to sequences
 ==========================
@@ -298,7 +298,7 @@ sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 "folgezettel": Sequence notes.).
 
 
-File: docYDsSK7.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Re-parent a file to extend a given sequence,  Next: Show all or some sequences in a Dired buffer,  Prev: Link only to sequences,  Up: Sequence notes
 
 1.5 Re-parent a file to extend a given sequence
 ===============================================
@@ -311,7 +311,7 @@ a sequence as their file name ‘SIGNATURE’ (*note Write sequence notes or
 "folgezettel": Sequence notes.).
 
 
-File: docYDsSK7.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
+File: docWvKm4m.info,  Node: Show all or some sequences in a Dired buffer,  Prev: Re-parent a file to extend a given sequence,  Up: Sequence notes
 
 1.6 Show all or some sequences in a Dired buffer
 ================================================
@@ -340,7 +340,7 @@ prefix.
 is also available (*note Find a relative of the current sequence::).
 
 
-File: docYDsSK7.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
+File: docWvKm4m.info,  Node: Installation,  Next: Sample configuration,  Prev: Sequence notes,  Up: Top
 
 2 Installation
 **************
@@ -351,7 +351,7 @@ File: docYDsSK7.info,  Node: Installation,  Next: Sample configuration,  Prev: S
 * Manual installation::
 
 
-File: docYDsSK7.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
+File: docWvKm4m.info,  Node: GNU ELPA package,  Next: Manual installation,  Up: Installation
 
 2.1 GNU ELPA package
 ====================
@@ -370,7 +370,7 @@ archive.  Read:
 <https://protesilaos.com/codelog/2022-05-13-emacs-elpa-devel/>.
 
 
-File: docYDsSK7.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
+File: docWvKm4m.info,  Node: Manual installation,  Prev: GNU ELPA package,  Up: Installation
 
 2.2 Manual installation
 =======================
@@ -397,7 +397,7 @@ following commands in a shell prompt:
    Everything is in place to set up the package.
 
 
-File: docYDsSK7.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
+File: docWvKm4m.info,  Node: Sample configuration,  Next: Acknowledgements,  Prev: Installation,  Up: Top
 
 3 Sample configuration
 **********************
@@ -427,7 +427,7 @@ File: docYDsSK7.info,  Node: Sample configuration,  Next: Acknowledgements,  Pre
 
 
 
-File: docYDsSK7.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
+File: docWvKm4m.info,  Node: Acknowledgements,  Next: GNU Free Documentation License,  Prev: Sample configuration,  Up: Top
 
 4 Acknowledgements
 ******************
@@ -440,13 +440,13 @@ Author/maintainer
 
 Contributions to code or the manual
      Ashton Wiersdorf, Claudio Migliorelli, Kierin Bell, Rory Molinari,
-     Peter Prevos.
+     Peter Prevos, alan-w-255.
 
 Ideas and/or user feedback
      Alex Carney, Mirko Hernandez.
 
 
-File: docYDsSK7.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
+File: docWvKm4m.info,  Node: GNU Free Documentation License,  Next: Indices,  Prev: Acknowledgements,  Up: Top
 
 Appendix A GNU Free Documentation License
 *****************************************
@@ -928,7 +928,7 @@ software license, such as the GNU General Public License, to permit
 their use in free software.
 
 
-File: docYDsSK7.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
+File: docWvKm4m.info,  Node: Indices,  Prev: GNU Free Documentation License,  Up: Top
 
 B Indices
 *********
@@ -940,7 +940,7 @@ B Indices
 * Concept index::
 
 
-File: docYDsSK7.info,  Node: Function index,  Next: Variable index,  Up: Indices
+File: docWvKm4m.info,  Node: Function index,  Next: Variable index,  Up: Indices
 
 B.1 Function index
 ==================
@@ -980,7 +980,7 @@ B.1 Function index
                                                                (line  6)
 
 
-File: docYDsSK7.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
+File: docWvKm4m.info,  Node: Variable index,  Next: Concept index,  Prev: Function index,  Up: Indices
 
 B.2 Variable index
 ==================
@@ -992,7 +992,7 @@ B.2 Variable index
                                                                 (line 6)
 
 
-File: docYDsSK7.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
+File: docWvKm4m.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
 
 B.3 Concept index
 =================
@@ -1021,11 +1021,11 @@ Node: GNU ELPA package15490
 Node: Manual installation16060
 Node: Sample configuration16865
 Node: Acknowledgements17970
-Node: GNU Free Documentation License18453
-Node: Indices43613
-Node: Function index43789
-Node: Variable index46300
-Node: Concept index46636
+Node: GNU Free Documentation License18465
+Node: Indices43625
+Node: Function index43801
+Node: Variable index46312
+Node: Concept index46648
 
 End Tag Table
 
