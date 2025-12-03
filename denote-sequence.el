@@ -554,33 +554,39 @@ means to pad the full length of the sequence."
          "=")
       (string-pad s 32 32 :pad-from-start))))
 
-(defun denote-sequence--smaller-p (sequence1 sequence2)
-  "Return non-nil if SEQUENCE1 is smaller than SEQUENCE2."
-  (string<
-   (denote-sequence--pad sequence1 'all)
-   (denote-sequence--pad sequence2 'all)))
-
 (defun denote-sequence-sort-sequences (sequences)
   "Sort SEQUENCES according to their sequence.
 Also see `denote-sequence-sort-files'."
-  (sort sequences #'denote-sequence--smaller-p))
+  (sort
+   sequences
+   (lambda (sequence1 sequence2)
+     (string<
+      (denote-sequence--pad sequence1 'all)
+      (denote-sequence--pad sequence2 'all)))))
 
 (defun denote-sequence--file-smaller-p (file1 file2)
   "Return non-nil if FILE1 has a smaller sequence than FILE2."
   (let ((sequence1 (denote-retrieve-filename-signature file1))
         (sequence2 (denote-retrieve-filename-signature file2)))
-    (denote-sequence--smaller-p sequence1 sequence2)))
+    (string<
+     (denote-sequence--pad sequence1 'all)
+     (denote-sequence--pad sequence2 'all))))
 
 (defun denote-sequence-sort-files (files-with-sequence)
   "Sort FILES-WITH-SEQUENCE according to their sequence.
 Also see `denote-sequence-sort-sequences'."
   (sort files-with-sequence #'denote-sequence--file-smaller-p))
 
-;; FIXME 2025-12-01: I made a mistake to not pass type here.  I am now
-;; ignoring it but it should actually be there.
-(defun denote-sequence--get-largest-by-order (sequences _type)
+(defun denote-sequence--get-largest-by-order (sequences type)
   "Sort SEQUENCES of TYPE to get largest in order, using `denote-sequence--pad'."
-  (car (reverse (sort sequences #'denote-sequence--smaller-p))))
+  (car
+   (reverse
+    (sort
+     sequences
+     (lambda (sequence1 sequence2)
+       (string<
+        (denote-sequence--pad sequence1 type)
+        (denote-sequence--pad sequence2 type)))))))
 
 (defun denote-sequence--string-length-sans-delimiter (string)
   "Return length of STRING without the equals sign."
@@ -1108,18 +1114,18 @@ is that many levels deep.  For example, 1=1=2 is three levels deep.
 
 For a more specialised case, see `denote-sequence-find-relatives-dired'."
   (interactive (denote-sequence--get-interactive-for-prefix-and-depth))
-  (pcase-let* ((relative-p (denote-has-single-denote-directory-p))
-               (files-fn `(lambda ()
-                            (let* ((files (if (and ,prefix (not (string-blank-p ,prefix)))
-                                              (denote-sequence-get-all-files-with-prefix ,prefix)
-                                            (denote-sequence-get-all-files)))
-                                   (files-with-depth (if ,depth
-                                                         (denote-sequence-get-all-files-with-max-depth ,depth files)
-                                                       files))
-                                   (files-sorted (denote-sequence-sort-files files-with-depth)))
-                              (if ,relative-p
-                                  (mapcar #'file-relative-name files-sorted)
-                                files-sorted)))))
+  (let* ((relative-p (denote-has-single-denote-directory-p))
+         (files-fn (lambda ()
+                     (let* ((files (if (and prefix (not (string-blank-p prefix)))
+                                       (denote-sequence-get-all-files-with-prefix prefix)
+                                     (denote-sequence-get-all-files)))
+                            (files-with-depth (if depth
+                                                  (denote-sequence-get-all-files-with-max-depth depth files)
+                                                files))
+                            (files-sorted (denote-sequence-sort-files files-with-depth)))
+                       (if relative-p
+                           (mapcar #'file-relative-name files-sorted)
+                         files-sorted)))))
     (if-let* ((directory (if relative-p ; see comment in `denote-file-prompt'
                              (car (denote-directories))
                            (denote-directories-get-common-root)))
