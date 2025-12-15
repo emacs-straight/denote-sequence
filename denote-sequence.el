@@ -799,7 +799,7 @@ instead of the default `denote-sequence-annotate-types'."
     (intern
      (completing-read
       (format-prompt (or prompt-text "Select sequence type") default)
-      (denote--completion-table 'denote-sequence-type (or types denote-sequence-types))
+      (denote-get-completion-table (or types denote-sequence-types) '(category . denote-sequence-type))
       nil :require-match nil
       'denote-sequence-type-history default))))
 
@@ -819,7 +819,7 @@ completion candidates.  Else use `denote-sequence-get-all-files'."
             (prompt (format-prompt (or prompt-text "Select FILE with sequence") nil))
             (input (completing-read
                     prompt
-                    (denote--completion-table 'file relative-files)
+                    (denote-get-completion-table relative-files '(category . file))
                     nil :require-match
                     nil 'denote-sequence-file-history)))
       (expand-file-name input (car (denote-directories)))
@@ -1114,7 +1114,8 @@ is that many levels deep.  For example, 1=1=2 is three levels deep.
 
 For a more specialised case, see `denote-sequence-find-relatives-dired'."
   (interactive (denote-sequence--get-interactive-for-prefix-and-depth))
-  (let* ((relative-p (denote-has-single-denote-directory-p))
+  (let* ((roots (denote-directories))
+         (relative-p (null (cdr roots)))
          (files-fn (lambda ()
                      (let* ((files (if (and prefix (not (string-blank-p prefix)))
                                        (denote-sequence-get-all-files-with-prefix prefix)
@@ -1128,7 +1129,7 @@ For a more specialised case, see `denote-sequence-find-relatives-dired'."
                          files-sorted)))))
     (if-let* ((directory (if relative-p ; see comment in `denote-file-prompt'
                              (car (denote-directories))
-                           (denote-directories-get-common-root)))
+                           (denote-directories-get-common-root roots)))
               (files (funcall files-fn))
               (dired-name (denote-format-buffer-name
                            (format-message "prefix `%s'; depth `%s'" (or prefix "ALL") (or depth "ALL"))
