@@ -822,27 +822,14 @@ function can remove it, such as with `denote-file-prompt-group'."
                 (propertize (or (denote-retrieve-filename-keywords file) "") 'face 'completions-annotations)))))
    files))
 
-(defun denote-sequence-file-prompt-group (file transform)
-  "Retun group of FILE if TRANSFORM is non-nil, per `completion-metadata'."
-  (cond
-   (transform
-    (denote-retrieve-filename-title file))
-   ((string-match-p (regexp-opt denote-encryption-file-extensions) file)
-    "Encrypted")
-   ((string-match-p (regexp-opt (denote-file-type-extensions)) file)
-    "Notes")
-   ((string-match-p "\\.\\(pdf\\|epub\\)" file)
-    "Documents")
-   (t "Other files")))
-
 (defvar denote-sequence-file-prompt-extra-metadata
   (list
    ;; NOTE 2025-12-15: If we use the `file' category, then we are
    ;; subject to the `completion-category-overrides'.  This is a
    ;; problem because the user will want to, for example, sort
    ;; directories before files, but then we cannot have our sort here.
-   (cons 'category 'file)
-   (cons 'group-function #'denote-sequence-file-prompt-group)
+   (cons 'category 'denote-file)
+   (cons 'group-function #'denote-file-prompt-group)
    (cons 'affixation-function #'denote-sequence-file-prompt-affixate)
    (cons 'display-sort-function #'denote-sequence-sort-files))
   "Extra `completion-metadata' for the `denote-file-prompt'.
