@@ -912,13 +912,21 @@ When called from Lisp, SEQUENCE is a string that conforms with
          (denote-use-signature new-sequence))
     (call-interactively 'denote)))
 
-(defun denote-sequence--get-file-in-dired-or-prompt (prompt-text)
-  "Get the file at point in Dired, the current one, or prompt with PROMPT-TEXT."
+(defun denote-sequence--get-current-sequence-or-prompt (prompt-text)
+  "Get the current sequence or prompt for it with PROMPT-TEXT.
+Try to get the current sequence from the file at point in Dired, from the
+current Denote sequence file buffer, or at point in the
+buffer produced by the command `denote-sequence-view-hierarchy'.
+
+If those fail, prompt for a file."
   (cond
    ((when-let* (((derived-mode-p 'dired-mode))
                 (file-at-point (dired-get-filename nil t)))
       (denote-sequence-file-p file-at-point)))
    ((and buffer-file-name (denote-sequence-file-p buffer-file-name)))
+   ((derived-mode-p 'denote-sequence-hierarchy-mode)
+    (when-let* ((file (get-text-property (point) 'denote-sequence-hierarchy-file)))
+      (denote-sequence-file-p file)))
    (t
     (denote-retrieve-filename-signature (denote-sequence-file-prompt prompt-text)))))
 
@@ -927,7 +935,7 @@ When called from Lisp, SEQUENCE is a string that conforms with
   "Create a new sibling sequence of the current file with SEQUENCE.
 If the current file does not have a sequence, then behave exactly like
 `denote-sequence-new-sibling'."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE")))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new sibling of SEQUENCE")))
   (let* ((new-sequence (denote-sequence-get-new 'sibling sequence))
          (denote-use-signature new-sequence))
     (call-interactively 'denote)))
@@ -953,7 +961,7 @@ When called from Lisp, SEQUENCE is a string that conforms with
   "Create a new child sequence of the current file with SEQUENCE.
 If the current file does not have a sequence, then behave exactly like
 `denote-sequence-new-child'."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new child of SEQUENCE")))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new child of SEQUENCE")))
   (let* ((new-sequence (denote-sequence-get-new 'child sequence))
          (denote-use-signature new-sequence))
     (call-interactively 'denote)))
@@ -1018,7 +1026,7 @@ that are already known to pertain to SEQUENCE."
 When called from Lisp RELATIVES is the list of files to search through.
 In interactive use, this happens internally when an immediate next
 sibling is not available and the search needs to be repeated."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new sibling of SEQUENCE") nil))
   (denote-sequence-find-next-prev-sibling-subr 'next sequence relatives))
 
 ;;;###autoload
@@ -1027,7 +1035,7 @@ sibling is not available and the search needs to be repeated."
 When called from Lisp RELATIVES is the list of files to search through.
 In interactive use, this happens internally when an immediate previous
 sibling is not available and the search needs to be repeated."
-  (interactive (list (denote-sequence--get-file-in-dired-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new sibling of SEQUENCE") nil))
   (denote-sequence-find-next-prev-sibling-subr 'previous sequence relatives))
 
 (defvar denote-sequence-relative-types
