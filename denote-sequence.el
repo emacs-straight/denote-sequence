@@ -158,7 +158,7 @@ Produce an error if the sequencing scheme cannot be established."
    ((or (and partial (denote-sequence--numeric-partial-p sequence))
         (denote-sequence-numeric-p sequence))
     (cons sequence 'numeric))
-   (t (error "The sequence `%s' does not pass `denote-sequence-p'" sequence))))
+   (t (error "The sequence `%s' does not pass `denote-sequence-and-scheme-p'" sequence))))
 
 (defun denote-sequence--scheme-of-strings (strings)
   "Return the sequencing scheme of STRINGS, per `denote-sequence-scheme'."
@@ -180,6 +180,7 @@ Return resulting sequence if it conforms with `denote-sequence-p'."
     ('numeric (mapconcat #'identity strings "="))
     ('alphanumeric (apply #'concat strings))))
 
+;; FIXME 2026-03-23: I think this does not actually work with all sort of partial sequences.
 (defun denote-sequence-split (sequence &optional partial)
   "Split the SEQUENCE string into a list.
 SEQUENCE conforms with `denote-sequence-p'.  If PARTIAL is non-nil, it
@@ -1350,6 +1351,21 @@ CHECK THE RESULTING SEQUENCES FOR DUPLICATES."
   :package-version '(denote . "0.3.0")
   :group 'denote-sequence-hierarchy)
 
+(defcustom denote-sequence-hierarchy-move-and-open nil
+  "When non-nil moving in the hierarchy view also displays the file.
+The hierarchy view is the buffer produced by the command
+`denote-sequence-view-hierarchy'.
+
+The commands affected by this user option are the following:
+
+- `denote-sequence-hierarchy-outline-forward-same-level'
+- `denote-sequence-hierarchy-outline-backward-same-level'
+- `denote-sequence-hierarchy-outline-next-visible-heading'
+- `denote-sequence-hierarchy-outline-previous-visible-heading'"
+  :type 'boolean
+  :package-version '(denote . "0.3.0")
+  :group 'denote-sequence-hierarchy)
+
 (defun denote-sequence--format-hierarchy-entry (indent sequence title keywords)
   "Format hierarchy entry to include INDENT, SEQUENCE, TITLE, and KEYWORDS."
   (let* ((indent (propertize indent
@@ -1420,6 +1436,25 @@ set the `revert-buffer-function'."
 (declare-function outline-next-visible-heading "outline" (arg))
 (declare-function outline-previous-visible-heading "outline" (arg))
 
+(defmacro denote-sequence-define-hierarchy-motion-command (outline-motion)
+  "Define a command that performs OUTLINE-MOTION.
+The command respects the user option `denote-sequence-hierarchy-move-and-open'."
+  `(defun ,(intern (format "denote-sequence-hierarchy-%s" outline-motion)) (n)
+     ,(format "Perform `%s'.
+Then do what `denote-sequence-hierarchy-move-and-open' entails."
+              outline-motion)
+     (interactive "p")
+     (,outline-motion n)
+     (when denote-sequence-hierarchy-move-and-open
+       (let ((current-window (selected-window)))
+         (call-interactively #'denote-sequence-hierarchy-find-file)
+         (select-window current-window)))))
+
+(denote-sequence-define-hierarchy-motion-command outline-forward-same-level)
+(denote-sequence-define-hierarchy-motion-command outline-backward-same-level)
+(denote-sequence-define-hierarchy-motion-command outline-next-visible-heading)
+(denote-sequence-define-hierarchy-motion-command outline-previous-visible-heading)
+
 ;; TODO 2025-11-19: Review which keybindings we need to cover the
 ;; basic use-case.  I do not want to have a million options here.
 (defvar denote-sequence-hierarchy-mode-map
@@ -1429,10 +1464,10 @@ set the `revert-buffer-function'."
     (define-key map (kbd "S-TAB") #'outline-cycle-buffer)
     (define-key map (kbd "<backtab>") #'outline-cycle-buffer)
     (define-key map (kbd "g") #'revert-buffer)
-    (define-key map (kbd "f") #'outline-forward-same-level)
-    (define-key map (kbd "b") #'outline-backward-same-level)
-    (define-key map (kbd "n") #'outline-next-visible-heading)
-    (define-key map (kbd "p") #'outline-previous-visible-heading)
+    (define-key map (kbd "f") #'denote-sequence-hierarchy-outline-forward-same-level)
+    (define-key map (kbd "b") #'denote-sequence-hierarchy-outline-backward-same-level)
+    (define-key map (kbd "n") #'denote-sequence-hierarchy-outline-next-visible-heading)
+    (define-key map (kbd "p") #'denote-sequence-hierarchy-outline-previous-visible-heading)
     map)
   "Key map for `denote-sequence-hierarchy-mode'.")
 
@@ -1482,6 +1517,7 @@ set the `revert-buffer-function'."
   (cursor-sensor-mode 1)
   (outline-minor-mode 1))
 
+;; TODO 2026-03-24: We need to document this command, as well as its two user options.
 ;;;###autoload
 (defun denote-sequence-view-hierarchy (&optional prefix depth)
   "Show a hierachy of sequences.
