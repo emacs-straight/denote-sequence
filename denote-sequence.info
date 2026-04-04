@@ -73,16 +73,16 @@ of it.
 
 Sequence notes
 
-* Select a sequencing scheme for denote-sequence-scheme::
+* Select a sequence scheme for denote-sequence-scheme::
 * Create parent, child, or sibling sequence notes: Create parent child or sibling sequence notes.
 * Find a relative of the current sequence::
 * Link only to sequences::
 * Re-parent a file to extend a given sequence::
 * Show all or some sequences in a Dired buffer::
 
-Select a sequencing scheme for ‘denote-sequence-scheme’
+Select a sequence scheme for ‘denote-sequence-scheme’
 
-* Convert from one sequencing scheme to another::
+* Convert from one sequence scheme to another::
 
 Installation
 
@@ -102,7 +102,7 @@ File: denote-sequence.info,  Node: Sequence notes,  Next: Installation,  Prev: T
 ***************************************
 
 The ‘denote-sequence’ package provides an optional extension to ‘denote’
-for naming files with a sequencing scheme.  The idea is to establish
+for naming files with a sequence scheme.  The idea is to establish
 hiearchical relationships between files, such that the contents of one
 logically follow or complement those of another.
 
@@ -138,7 +138,7 @@ manually.  The purpose of this extension is to streamline this work.
 
 * Menu:
 
-* Select a sequencing scheme for denote-sequence-scheme::
+* Select a sequence scheme for denote-sequence-scheme::
 * Create parent, child, or sibling sequence notes: Create parent child or sibling sequence notes.
 * Find a relative of the current sequence::
 * Link only to sequences::
@@ -146,73 +146,98 @@ manually.  The purpose of this extension is to streamline this work.
 * Show all or some sequences in a Dired buffer::
 
 
-File: denote-sequence.info,  Node: Select a sequencing scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
+File: denote-sequence.info,  Node: Select a sequence scheme for denote-sequence-scheme,  Next: Create parent child or sibling sequence notes,  Up: Sequence notes
 
-1.1 Select a sequencing scheme for ‘denote-sequence-scheme’
-===========================================================
+1.1 Select a sequence scheme for ‘denote-sequence-scheme’
+=========================================================
 
-The user option ‘denote-sequence-scheme’ allows users to select either
-the ‘numeric’ scheme, which is like ‘1=1=2’ or the ‘alphanumeric’
-scheme, which is ‘1a2’ for the same sequence (*note Convert from one
-sequencing scheme to another::):
+[ The ‘alphanumeric-delimited’ scheme is part of 0.3.0-dev.  ]
 
-Numeric sequencing scheme
+   The user option ‘denote-sequence-scheme’ allows users to select among
+the ‘numeric’, ‘alphanumeric’, and ‘alphanumeric-delimited’ schemes, as
+a symbol.
+
+   All schemes are mutually convertable (*note Convert from one sequence
+scheme to another::).
+
+‘numeric’
      A numeric sequence consists only of numbers.  The level of depth is
      derived from the number of fields in the sequence, separated by the
      equals sign.  Thus, the sequence ‘1=1=2’ consists of three levels
      of depth.  For deeper sequences, the numeric scheme will get
      longer, which some users may consider unwieldy.  The upside,
-     however, is that is easier to reason about larger numbers, such as
+     however, is that is easier to reason about large numbers, such as
      ‘1=100=2=50’.
 
-Alphanumeric sequencing scheme
+‘alphanumeric’
      An alphanumeric sequence combines numbers and letters.  The level
-     of depth is undestand by the alteration from numbers to letters and
-     vice versa.  As such, the sequence ‘1a2’ has three levels of depth.
-     This scheme is more compact, which users may like but can be harder
-     to reason about large numbers, such as ‘1zzzv2zx’ corresponding to
-     the numeric ‘1=100=2=50’ (this is because the number 26 is z, 27 is
-     za, 52 is zz, and so on).  In practice, large numbers may not be a
-     problem, though this is something to keep in mind.
+     of depth is communicated by the alteration from numbers to letters
+     and vice versa.  As such, the sequence ‘1a2’ has three levels of
+     depth.  This scheme is more compact, which users may like but can
+     be harder to reason about large numbers, such as ‘1zzzv2zx’
+     corresponding to the numeric ‘1=100=2=50’ (this is because the
+     number 26 is z, 27 is za, 52 is zz, and so on).  In practice, large
+     numbers may not be a problem, though this is something to keep in
+     mind.
+
+‘alphanumeric-delimited’
+     The alphanumeric delimited scheme is like the aforementioned
+     alphanumeric scheme except for the fact that it adds the equals
+     sign as a delimiter.  The delimiter is placed after the first level
+     of depth and then after every third level of depth.  For example:
+     ‘1=a2b=a1c’.  Note that this is about levels of depth, not
+     triplets, so ‘1=zx1zza=1’ is valid because ‘zx’ is one level of
+     depth as is ‘zza’, as noted above.  The ‘alphanumeric-delimited’
+     scheme is optimal for those who prefer the alphanumeric notation
+     and want to make very long sequences easier to read.
 
 * Menu:
 
-* Convert from one sequencing scheme to another::
+* Convert from one sequence scheme to another::
 
 
-File: denote-sequence.info,  Node: Convert from one sequencing scheme to another,  Up: Select a sequencing scheme for denote-sequence-scheme
+File: denote-sequence.info,  Node: Convert from one sequence scheme to another,  Up: Select a sequence scheme for denote-sequence-scheme
 
-1.1.1 Convert from one sequencing scheme to another
----------------------------------------------------
+1.1.1 Convert from one sequence scheme to another
+-------------------------------------------------
 
-The decision on the desired ‘denote-sequence-scheme’ wil affect new
-notes long-term (*note Select a sequencing scheme for
-denote-sequence-scheme::).  It thus is important to think through your
-needs and proceed accordingly.
+The command ‘denote-sequence-convert’ makes it easy to switch from one
+‘denote-sequence-scheme’ to another (*note Select a sequence scheme for
+denote-sequence-scheme::).
 
-   Still, one cannot be sure which scheme they prefer until they
-experiment with it.  It then is inconvenient to manually revert to the
-alternative scheme.  To this end, we provide the command
-‘denote-sequence-convert’.  It convers one or more files from their
-current scheme to its counterpart.
+   This command has a "do what I mean behaviour" with regard to which
+file or files it should operate on:
 
-   When called from inside a Denote file, it converts that file.  When
-called from a Dired buffer, it operates on the marked files.  If no
-files are marked, it works with the Dired file at point.
+   • When called from inside a file with a Denote sequence, it operates
+     on the current file.
 
-   Note that ‘denote-sequence-convert’ DOES NOT REPARENT OR ANYHOW CHECK
-THE RESULTING SEQUENCES FOR DUPLICATES (*note Re-parent a file to extend
-a given sequence::).
+   • When called from a Dired buffer, it operates on all the marked
+     files.
+
+   • When there are no marked files in the Dired buffer, it operates on
+     the file at point.
+
+   The target sequence scheme for the conversion is whatever is assigned
+to the user option ‘denote-sequence-scheme’.  If, however, the command
+‘denote-sequence-convert’ is called with a prefix argument (‘C-u’ by
+default), then it will prompt for the target sequence scheme.  [ This
+optional prompt is part of 0.3.0-dev.  ]
+
+   [ This command is for users who once used a ‘denote-sequence-scheme’
+and have since decided to switch to another.  IT DOES NOT REPARENT OR
+ANYHOW CHECK THE RESULTING SEQUENCES FOR DUPLICATES: it simply performs
+the conversion from one scheme to another (*note Re-parent a file to
+extend a given sequence::).  ]
 
 
-File: denote-sequence.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequencing scheme for denote-sequence-scheme,  Up: Sequence notes
+File: denote-sequence.info,  Node: Create parent child or sibling sequence notes,  Next: Find a relative of the current sequence,  Prev: Select a sequence scheme for denote-sequence-scheme,  Up: Sequence notes
 
 1.2 Create parent, child, or sibling sequence notes
 ===================================================
 
 [ In the interest of simplicity, here we provide examples using the
 ‘numeric’ value of ‘denote-sequence-scheme’, though the ‘alphanumeric’
-will work as well (*note Select a sequencing scheme for
+will work as well (*note Select a sequence scheme for
 denote-sequence-scheme::).  ]
 
    A new sequence note can be of the type ‘parent’, ‘child’, and
@@ -317,7 +342,7 @@ File: denote-sequence.info,  Node: Show all or some sequences in a Dired buffer,
 
 [ In the interest of simplicity, here we provide examples using the
 ‘numeric’ value of ‘denote-sequence-scheme’, though the ‘alphanumeric’
-will work as well (*note Select a sequencing scheme for
+will work as well (*note Select a sequence scheme for
 denote-sequence-scheme::).  ]
 
    The command ‘denote-sequence-dired’ produces a bespoke and fully
@@ -948,8 +973,8 @@ B.1 Function index
 
 * denote-sequence:                       Create parent child or sibling sequence notes.
                                                                (line 20)
-* denote-sequence-convert:               Convert from one sequencing scheme to another.
-                                                               (line 11)
+* denote-sequence-convert:               Convert from one sequence scheme to another.
+                                                               (line  6)
 * denote-sequence-dired:                 Show all or some sequences in a Dired buffer.
                                                                (line 11)
 * denote-sequence-find:                  Find a relative of the current sequence.
@@ -986,8 +1011,8 @@ B.2 Variable index
  [index ]
 * Menu:
 
-* denote-sequence-scheme:                Select a sequencing scheme for denote-sequence-scheme.
-                                                                (line 6)
+* denote-sequence-scheme:                Select a sequence scheme for denote-sequence-scheme.
+                                                                (line 8)
 
 
 File: denote-sequence.info,  Node: Concept index,  Prev: Variable index,  Up: Indices
@@ -1005,24 +1030,24 @@ B.3 Concept index
 
 Tag Table:
 Node: Top878
-Node: Sequence notes3393
-Node: Select a sequencing scheme for denote-sequence-scheme5979
-Node: Convert from one sequencing scheme to another7673
-Node: Create parent child or sibling sequence notes8821
-Node: Find a relative of the current sequence11535
-Node: Link only to sequences12463
-Node: Re-parent a file to extend a given sequence13238
-Node: Show all or some sequences in a Dired buffer13923
-Node: Installation15354
-Node: GNU ELPA package15553
-Node: Manual installation16129
-Node: Sample configuration16940
-Node: Acknowledgements18050
-Node: GNU Free Documentation License18556
-Node: Indices43722
-Node: Function index43904
-Node: Variable index46421
-Node: Concept index46763
+Node: Sequence notes3387
+Node: Select a sequence scheme for denote-sequence-scheme5969
+Node: Convert from one sequence scheme to another8375
+Node: Create parent child or sibling sequence notes9841
+Node: Find a relative of the current sequence12551
+Node: Link only to sequences13479
+Node: Re-parent a file to extend a given sequence14254
+Node: Show all or some sequences in a Dired buffer14939
+Node: Installation16368
+Node: GNU ELPA package16567
+Node: Manual installation17143
+Node: Sample configuration17954
+Node: Acknowledgements19064
+Node: GNU Free Documentation License19570
+Node: Indices44736
+Node: Function index44918
+Node: Variable index47433
+Node: Concept index47773
 
 End Tag Table
 
