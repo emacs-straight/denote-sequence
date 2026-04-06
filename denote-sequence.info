@@ -462,8 +462,8 @@ Author/maintainer
      Protesilaos Stavrou.
 
 Contributions to code or the manual
-     Ashton Wiersdorf, Claudio Migliorelli, Kierin Bell, Rory Molinari,
-     Peter Prevos, alan-w-255, juh.
+     Ashton Wiersdorf, Claudio Migliorelli, Kierin Bell, Nicolas Semrau,
+     Rory Molinari, Peter Prevos, alan-w-255, juh, liyingzhi.
 
 Ideas and/or user feedback
      Alex Carney, Mirko Hernandez.
@@ -1043,11 +1043,11 @@ Node: GNU ELPA package16567
 Node: Manual installation17143
 Node: Sample configuration17954
 Node: Acknowledgements19064
-Node: GNU Free Documentation License19570
-Node: Indices44736
-Node: Function index44918
-Node: Variable index47433
-Node: Concept index47773
+Node: GNU Free Documentation License19597
+Node: Indices44763
+Node: Function index44945
+Node: Variable index47460
+Node: Concept index47800
 
 End Tag Table
 
