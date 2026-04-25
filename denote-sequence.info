@@ -38,10 +38,9 @@ Copyright (C) 2024-2026 Free Software Foundation, Inc.
      (a) The FSF’s Back-Cover Text is: “You have the freedom to copy and
      modify this GNU manual.”
 
-   This manual, written by Protesilaos Stavrou, describes the
-customization options for the Emacs package called ‘denote’ (or
-‘denote.el’), and provides every other piece of information pertinent to
-it.
+   This manual, written by Protesilaos, describes the customization
+options for the Emacs package called ‘denote’ (or ‘denote.el’), and
+provides every other piece of information pertinent to it.
 
    The documentation furnished herein corresponds to stable version
 0.2.0, released on 2025-10-17.  Any reference to a newer feature which
@@ -459,7 +458,7 @@ Denote Sequence is meant to be a collective effort.  Every bit of help
 matters.
 
 Author/maintainer
-     Protesilaos Stavrou.
+     Protesilaos.
 
 Contributions to code or the manual
      Ashton Wiersdorf, Claudio Migliorelli, Kierin Bell, Nicolas Semrau,
@@ -1030,24 +1029,24 @@ B.3 Concept index
 
 Tag Table:
 Node: Top878
-Node: Sequence notes3387
-Node: Select a sequence scheme for denote-sequence-scheme5969
-Node: Convert from one sequence scheme to another8375
-Node: Create parent child or sibling sequence notes9841
-Node: Find a relative of the current sequence12551
-Node: Link only to sequences13479
-Node: Re-parent a file to extend a given sequence14254
-Node: Show all or some sequences in a Dired buffer14939
-Node: Installation16368
-Node: GNU ELPA package16567
-Node: Manual installation17143
-Node: Sample configuration17954
-Node: Acknowledgements19064
-Node: GNU Free Documentation License19597
-Node: Indices44763
-Node: Function index44945
-Node: Variable index47460
-Node: Concept index47800
+Node: Sequence notes3379
+Node: Select a sequence scheme for denote-sequence-scheme5961
+Node: Convert from one sequence scheme to another8367
+Node: Create parent child or sibling sequence notes9833
+Node: Find a relative of the current sequence12543
+Node: Link only to sequences13471
+Node: Re-parent a file to extend a given sequence14246
+Node: Show all or some sequences in a Dired buffer14931
+Node: Installation16360
+Node: GNU ELPA package16559
+Node: Manual installation17135
+Node: Sample configuration17946
+Node: Acknowledgements19056
+Node: GNU Free Documentation License19581
+Node: Indices44747
+Node: Function index44929
+Node: Variable index47444
+Node: Concept index47784
 
 End Tag Table
 
