@@ -11,11 +11,11 @@ This manual, written by Protesilaos, describes the customization options
 for the Emacs package called `denote' (or `denote.el'), and provides
 every other piece of information pertinent to it.
 
-The documentation furnished herein corresponds to stable version 0.2.0,
-released on 2025-10-17.  Any reference to a newer feature which does not
+The documentation furnished herein corresponds to stable version 0.3.0,
+released on 2026-05-20.  Any reference to a newer feature which does not
 yet form part of the latest tagged commit, is explicitly marked as such.
 
-Current development target is 0.3.0-dev.
+Current development target is 0.4.0-dev.
 
 ⁃ Package name (GNU ELPA): `denote-sequence'
 ⁃ Official manual: <https://protesilaos.com/emacs/denote-sequence>
@@ -112,8 +112,6 @@ Table of Contents
 2.1 Select a sequence scheme for `denote-sequence-scheme'
 ─────────────────────────────────────────────────────────
 
-  [ The `alphanumeric-delimited' scheme is part of 0.3.0-dev. ]
-
   The user option `denote-sequence-scheme' allows users to select among
   the `numeric', `alphanumeric', and `alphanumeric-delimited' schemes,
   as a symbol.
@@ -178,8 +176,7 @@ Table of Contents
   The target sequence scheme for the conversion is whatever is assigned
   to the user option `denote-sequence-scheme'. If, however, the command
   `denote-sequence-convert' is called with a prefix argument (`C-u' by
-  default), then it will prompt for the target sequence scheme. [ This
-  optional prompt is part of 0.3.0-dev. ]
+  default), then it will prompt for the target sequence scheme.
 
   [ This command is for users who once used a `denote-sequence-scheme'
     and have since decided to switch to another. IT DOES NOT REPARENT OR
