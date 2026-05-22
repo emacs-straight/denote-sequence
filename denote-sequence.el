@@ -981,8 +981,7 @@ function can remove it, such as with `denote-file-prompt-group'."
    (cons 'group-function #'denote-file-prompt-group)
    (cons 'affixation-function #'denote-sequence-file-prompt-affixate)
    (cons 'display-sort-function #'denote-sequence-sort-files))
-  "Extra `completion-metadata' for the `denote-file-prompt'.
-This is in addition to the completion category, which is constant.")
+  "Extra `completion-metadata' for the `denote-sequence-file-prompt'.")
 
 (defvar denote-sequence-file-history nil
   "Minibuffer history for `denote-sequence-file-prompt'.")
@@ -1175,7 +1174,7 @@ that are already known to pertain to SEQUENCE."
 When called from Lisp RELATIVES is the list of files to search through.
 In interactive use, this happens internally when an immediate next
 sibling is not available and the search needs to be repeated."
-  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Find the next sibling of SEQUENCE") nil))
   (denote-sequence-find-next-prev-sibling-subr 'next sequence relatives))
 
 ;;;###autoload
@@ -1184,7 +1183,7 @@ sibling is not available and the search needs to be repeated."
 When called from Lisp RELATIVES is the list of files to search through.
 In interactive use, this happens internally when an immediate previous
 sibling is not available and the search needs to be repeated."
-  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Make a new sibling of SEQUENCE") nil))
+  (interactive (list (denote-sequence--get-current-sequence-or-prompt "Find the previous sibling of SEQUENCE") nil))
   (denote-sequence-find-next-prev-sibling-subr 'previous sequence relatives))
 
 (defvar denote-sequence-relative-types
