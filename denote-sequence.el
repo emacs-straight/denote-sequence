@@ -887,7 +887,9 @@ returned by `denote-sequence-get-all-files'."
                           (seq-filter
                            (lambda (file)
                              (funcall comparison (denote-sequence-depth (denote-retrieve-filename-signature file)) depth))
-                           (denote-sequence-get-all-files-with-prefix prefix files)))))
+                           (if (and prefix (not (string-empty-p prefix)))
+                               (denote-sequence-get-all-files-with-prefix prefix files)
+                             (denote-sequence-get-all-files files))))))
     (pcase type
       ('all-parents
        (let ((butlast (butlast components))
@@ -1193,10 +1195,10 @@ sibling is not available and the search needs to be repeated."
 (defun denote-sequence-annotate-relative-types (type)
   "Annotate completion candidate of TYPE for `denote-sequence-type-prompt'."
   (when-let* ((text (pcase type
-                      ("all-parents" "All parent sequences")
+                      ("all-parents" "All ancestors")
                       ("parent" "Immediate parent")
                       ("siblings" "All siblings")
-                      ("all-children" "All children")
+                      ("all-children" "All descendants")
                       ("children" "Immediate children"))))
     (format "%s-- %s"
             (propertize " " 'display '(space :align-to 15))
